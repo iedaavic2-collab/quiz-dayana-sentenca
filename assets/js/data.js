@@ -171,7 +171,7 @@ const TELAS = [
     tit: A => is(A, 'Q2', 0) ? 'Processo aberto antes da primeira prova. Essa é a melhor hora: dá para construir certo desde a primeira página.'
             : is(A, 'Q2', 1) ? 'Processo aberto. Você está no começo, e isso é vantagem: ninguém precisa desaprender nada.'
             : is(A, 'Q2', 3) ? 'Um processo parado não é um processo encerrado. Vamos reabrir os autos.'
-            : is(A, 'Q2B', 0) ? 'Você está no começo da preparação. É agora que o método se instala.'
+            : is(A, 'Q2B', 0) ? 'Você está no começo da preparação. É agora que a base se constrói.'
             : is(A, 'Q2B', 3) ? 'Mais de 5 anos de processo. Eu sei o peso disso. E quero te mostrar uma coisa.'
             : 'Você estuda há {tempo}. Não é falta de esforço. Vamos olhar os autos.',
     pontos: [
@@ -211,7 +211,7 @@ const TELAS = [
     tit: 'O aprovado não apenas estuda. Ele pratica.',
     verso: { txt: 'Sejam praticantes da palavra, e não apenas ouvintes.', ref: 'Tiago 1:22' },
     pontos: [
-      { i: 'repetir', t: 'Em uns 7 meses de estudo, eu revisei o edital <b>pelo menos 6 vezes</b>, no tempo certo, antes de esquecer: o <b>Método 48, 7 e 30</b>. Sem revisão, não há aprovação.' }
+      { i: 'repetir', t: 'Em uns 7 meses de estudo, eu revisei o edital <b>pelo menos 6 vezes</b>. Conteúdo só aparece na prova quando vira treino.' }
     ],
     faixas: {
       trav: 'Os autos mostram muito conteúdo entrando e pouco treino saindo. A sensação é de progresso, mas na prova o conteúdo não aparece.',
@@ -461,7 +461,7 @@ const TELAS = [
   /* Resposta imediata à trava: a pessoa vê só a dela */
   { id: 'O1', t: 'ins', show: A => is(A, 'P22', 0), icone: 'repetir', fundo: 'cena-pratica.jpg', foco: '50% 32%',
     selo: 'Você respondeu: um método claro',
-    tit: 'Método claro é exatamente o que eu vou te entregar.',
+    tit: 'Você vai saber o que fazer em cada semana.',
     pontos: [
       { i: 'repetir', t: 'Em uns 7 meses de estudo, eu revisei o edital <b>pelo menos 6 vezes</b>.' },
       { i: 'lapis', t: 'No <b>Diário do Concurseiro</b>, você anota o que estudou, o que errou e o que <b>precisa revisar</b>.' },

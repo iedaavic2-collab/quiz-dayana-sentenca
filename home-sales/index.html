@@ -804,11 +804,11 @@ const TBD = `<span class="tbd">a definir</span>`;
 
 /* ---------- bônus (os mesmos do quiz 1; valores de referência definidos pela Mayara) ---------- */
 const BONUS = [
-  { id: "devocional", nome: "Devocional do Concurseiro: 30 dias", sub: "Um versículo e um estudo por dia", txt: "Para começar cada dia de estudo com Deus. Os 30 dias passam pelos 7 códigos da aprovação.", img: "img/bonus-devocional.jpg", valor: 197 },
-  { id: "reprovacao", nome: "Protocolo da Reprovação", sub: "As primeiras 24 horas depois do “não”", txt: "Não tomar decisão emocional, analisar o resultado, separar incapacidade de falta de preparação e montar o plano de recuperação.", img: "img/bonus-reprovacao.jpg", valor: 97 },
-  { id: "antitrava", nome: "Protocolo Antitrava", sub: "Para ansiedade, nervosismo, branco e pressão", txt: "Exercícios para fazer nos dias antes da prova e chegar preparad" + "{o|a} para acessar tudo o que estudou.", img: "img/bonus-antitrava.jpg", valor: 97 },
-  { id: "livro", nome: "Livro digital Minha Última Sentença", sub: "A minha história, da escola pública até a toga", txt: "Vendido separadamente por R$39,90.", img: "img/livro-capa.jpg", valor: 39.9 },
-  { id: "diario", nome: "Diário do Concurseiro", sub: "Para enxergar a sua evolução", txt: "Horas estudadas, questões, percentual de acerto, dificuldades e o que precisa revisar. Para imprimir ou usar na tela.", img: "img/bonus-diario.jpg", valor: 197 }
+  { id: "devocional", nome: "Devocional do Concurseiro: 30 dias", txt: "Um versículo e um estudo por dia, para começar o seu dia de estudo com Deus. Os 30 dias passam pelos 7 códigos da aprovação.", img: "img/bonus-devocional.jpg", valor: 197 },
+  { id: "reprovacao", nome: "Protocolo da Reprovação", txt: "O que fazer nas primeiras 24 horas depois de uma reprovação. Serve para qualquer concurso.", itens: ["Não tomar decisão emocional", "Analisar o resultado", "Identificar os pontos fracos", "Separar incapacidade de falta de preparação", "Montar o plano de recuperação"], img: "img/bonus-reprovacao.jpg", valor: 97 },
+  { id: "antitrava", nome: "Protocolo Antitrava", txt: "Como chegar ao dia da prova preparad{o|a} não apenas para responder questões, mas para conseguir acessar tudo o que você estudou.", rotulo: "Para", itens: ["Ansiedade", "Nervosismo", "Branco", "Pressão"], img: "img/bonus-antitrava.jpg", valor: 97 },
+  { id: "livro", nome: "Livro digital Minha Última Sentença", txt: "A minha história, da escola pública até a toga. Vendido separadamente por R$ 39,90.", img: "img/livro-capa.jpg", valor: 39.9 },
+  { id: "diario", nome: "Diário do Concurseiro", txt: "Um mapa simples para registrar o seu estudo e enxergar a sua evolução.", rotulo: "Você registra", itens: ["Horas estudadas", "Questões feitas", "Percentual de acerto", "Matérias estudadas", "Dificuldades", "Evolução", "Nível de energia", "Cumprimento das metas"], nota: "E um bloco de anotações: <b>Estudei · Aprendi · Errei · Preciso revisar · Próximo passo</b>.", img: "img/bonus-diario.jpg", valor: 197 }
 ];
 const TRAVA_BONUS = { metodo: "diario", alguem: "livro", constancia: "diario", fe: "devocional", acreditar: "antitrava" };
 const brl = v => "R$" + (Number.isInteger(v) ? v.toLocaleString("pt-BR") : v.toFixed(2).replace(".", ","));
@@ -907,7 +907,7 @@ const S = [
         : A.momento === "formei" ? `Processo aberto. <span class="hl-money">Você não precisa desaprender nada.</span>`
         : A.momento === "parei" ? `Um processo parado <span class="hl-money">não é um processo encerrado.</span>`
         : A.tempo === "a5p" ? `Mais de 5 anos de processo. <span class="hl-alert">Eu sei o peso disso.</span>`
-        : A.tempo === "a1" ? `Você está no começo. <span class="hl-money">É agora que o método se instala.</span>`
+        : A.tempo === "a1" ? `Você está no começo. <span class="hl-money">É agora que a base se constrói.</span>`
         : `Você estuda há ${TEMPO[A.tempo] || "um tempo"}. <span class="hl-alert">Não é falta de esforço.</span>`;
       const linha = primeira([
         [A.carreira === "oab", "Os 7 códigos valem para qualquer prova. Os exemplos que eu vou te dar vêm da magistratura, o caminho que eu conheço por dentro."],
@@ -956,7 +956,7 @@ const S = [
       <h2>O aprovado não apenas estuda. <span class="hl-money">Ele pratica.</span></h2>
       <div class="media cn fill"><img src="img/cena-pratica.jpg" alt="Pessoa estudando à mesa"></div>
       ${verso("Sejam praticantes da palavra, e não apenas ouvintes.", "Tiago 1:22", 2)}
-      <p class="lead" data-drop="4">Em uns 7 meses, revisei o edital <b>pelo menos 6 vezes</b>, antes de esquecer: o <b>Método 48, 7 e 30</b>.</p>
+      <p class="lead" data-drop="4">Em uns 7 meses de estudo, revisei o edital <b>pelo menos 6 vezes</b>. Conteúdo só aparece na prova quando vira treino.</p>
       ${parecer("pratica", {
         trav: "Muito conteúdo entrando e pouco treino saindo. Na prova, o conteúdo não aparece.",
         inst: "Você já pratica, mas sem calendário. Parte do que estuda escapa antes da revisão.",
@@ -1283,7 +1283,7 @@ const S = [
 
   { cta: "CONTINUAR", render: () => {
       const Q = {
-        metodo:     ["Método claro é exatamente o que eu vou te entregar.", "Cada aula termina com uma prática para os próximos 7 dias. E no Diário do Concurseiro você anota o que estudou, errou e precisa revisar.", `<div class="media pr fill"><img src="img/bonus-diario.jpg" alt="Diário do Concurseiro"></div>`],
+        metodo:     ["Você vai saber o que fazer em cada semana.", "Cada aula termina com uma prática para os próximos 7 dias. E no Diário do Concurseiro você anota o que estudou, errou e precisa revisar.", `<div class="media pr fill"><img src="img/bonus-diario.jpg" alt="Diário do Concurseiro"></div>`],
         alguem:     ["Eu já passei por esse caminho. E vou com você.", "Aprovada juíza aos 23 anos, com menos de um ano de preparação. De 2011 a 2021, fui mentora de concurseiros: eu ensinava como estudar e como continuar.", `<div class="media dt fill"><img src="img/dayana-toga.jpg" alt="Dayana Martins de toga"></div>`],
         constancia: ["Começar e parar tem solução: a semente mínima.", "O pouco que você faz até no pior dia. Eu estudei trabalhando: saía do tribunal às 13h, estudava à tarde e ia para o cursinho à noite.", `<div class="media pr fill"><img src="img/depo-adriana-2.jpg" alt="Mensagem da aluna Adriana Lima: consegui cumprir tudo do cronograma"></div>`],
         fe:         ["Você não precisa escolher entre método e fé.", "Na Aula 8, Aprovado diante de Deus, eu mostro como colocar a fé na preparação. E o Devocional do Concurseiro traz um versículo e um estudo por dia, durante 30 dias.", `<div class="media pr fill"><img src="img/bonus-devocional.jpg" alt="Devocional do Concurseiro"></div>`],
@@ -1405,19 +1405,18 @@ const S = [
       <div class="media dp fill"><img src="img/dayana-retrato.jpg" alt="Dayana Martins"></div>
       <div class="echo bad-echo">A maioria acha que falta conteúdo. <b>O que falta é o que fazer com ele.</b> O seu cursinho já entrega o conteúdo.</div>` },
 
-  /* o método */
+  /* o plano em 3 etapas (mesmo plano da página de vendas do quiz 1) */
   { cta: "CONTINUAR", center: true, render: () => {
       const t = travado();
-      const R = ["pratica", "gesta"].includes(t) ? 1 : ["semeia", "criaraiz"].includes(t) ? 2 : 3;
       return `
-      <h2>Você não precisa de mais conteúdo. <span class="hl-money">Precisa saber o que fazer com ele.</span></h2>
-      <p class="lead" data-drop="1">Eu não vou te dar aula de Direito. Eu vou sentar ao seu lado em 3 frentes:</p>
+      <h2>Você não precisa de mais conteúdo. <span class="hl-money">Precisa destravar o que te impede de avançar.</span></h2>
+      <p class="lead" data-drop="1">Eu não vou te dar aula de Direito. O seu cursinho já faz isso. O seu plano tem 3 etapas:</p>
       <ol class="rot">
-        <li${R === 1 ? ' class="me"' : ""}><b>Revisar no tempo certo</b><span>Antes de esquecer: o Método 48, 7 e 30.</span></li>
-        <li${R === 2 ? ' class="me"' : ""}><b>Manter a constância</b><span>A semente mínima e o Diário do Concurseiro.</span></li>
-        <li${R === 3 ? ' class="me"' : ""}><b>Permanecer na rota</b><span>Os códigos que seguram você até a prova.</span></li>
+        <li class="me"><b>Destravar ${COD[t].nome}</b><span>Comece pela Aula ${COD[t].aula} e pela sua ação dos próximos 7 dias.</span></li>
+        <li><b>Colocar os outros 6 códigos de pé</b><span>As outras aulas, com o Diário e o Devocional do Concurseiro.</span></li>
+        <li><b>Chegar à prova ${g("pronto", "pronta")}</b><span>O Protocolo Antitrava e, se o resultado não vier, o Protocolo da Reprovação.</span></li>
       </ol>
-      <div class="echo" data-drop="2">✅ Pela sua sentença, você começa pela <b>frente ${R}</b>.</div>`; } },
+      <div class="echo" data-drop="2">✅ Pela sua sentença, você começa por <b>${COD[t].nome}</b>.</div>`; } },
 
   /* o plano */
   { render: () => {
@@ -1449,7 +1448,7 @@ const S = [
       const t = travado();
       const hot = TRAVA_BONUS[A.trava];
       const lvl = (label, val, pct, kind) => `<div class="lv"><b>${label}</b><span>${val}</span><i class="lv-t ${kind}"><u style="width:${pct}%"></u><s style="left:calc(${pct}% - 9px)"></s></i></div>`;
-      const bonus = [...BONUS].sort((x, y) => (y.id === hot) - (x.id === hot));
+      const bonus = BONUS;
       const total = BONUS.reduce((s, b) => s + b.valor, 0);
       const fx = s => s.replace("{o|a}", g("o", "a"));
       const priceBox = `<div class="mm-price">
@@ -1464,7 +1463,7 @@ const S = [
         <p class="mm-pay">Cartão de crédito · Pix</p>`;
       const pack = `<div class="packrow">${["bonus-devocional", "bonus-reprovacao", "bonus-antitrava", "livro-capa", "bonus-diario"].map(i => `<img src="img/${i}.jpg" alt="">`).join("")}</div>`;
       const faq = [
-        ["Isso é curso de Direito?", "Não. O seu cursinho já entrega o conteúdo. Aqui você aprende o que fazer com ele: revisar, praticar, manter a constância e permanecer na rota."],
+        ["Isso é curso de Direito?", "Não. O seu cursinho já entrega o conteúdo. Aqui você destrava os 7 códigos que te fazem avançar: praticar, se posicionar, permanecer e manter a constância."],
         ["Serve para OAB ou outros concursos?", "Os 7 códigos valem para qualquer prova. Os exemplos vêm da magistratura, o caminho que a Dayana conhece por dentro."],
         ["Preciso ser cristão?", "Não. Os 7 códigos funcionam com ou sem fé. A Aula 8 e o Devocional são para quem quiser ir mais fundo."],
         ["Como recebo o acesso?", `Por e-mail, logo após a compra. ${TBD}`],
@@ -1479,7 +1478,7 @@ const S = [
         <div class="v-pic"><img src="${personImg()}" alt=""></div>
         ${lvl(COD[t].nome, "Travado", Math.max(8, nota(t)), "bad")}${lvl(COD[t].nome, "De pé", 88, "good")}
         ${lvl("Constância", nota("semeia") < 40 ? "Começo e paro" : "Oscila", Math.max(10, nota("semeia")), "bad")}${lvl("Constância", "Todo dia", 85, "good")}
-        ${lvl("Revisão", nota("pratica") < 40 ? "Quando lembro" : "Sem calendário", Math.max(10, nota("pratica")), "bad")}${lvl("Revisão", "No tempo certo", 86, "good")}
+        ${lvl("Permanência", nota("persevera") < 40 ? "Pensa em desistir" : "Oscila", Math.max(10, nota("persevera")), "bad")}${lvl("Permanência", "Até a prova", 86, "good")}
         ${lvl("Direção", nota("naoduvida") < 40 ? "Troca de rota" : "Balança", Math.max(10, nota("naoduvida")), "bad")}${lvl("Direção", "Rota decidida", 84, "good")}
       </div>
 
@@ -1489,7 +1488,7 @@ const S = [
       <p class="mm-sub">Olha o que você vai receber ↓</p>
 
       <h2 class="mm-h2">VOCÊ VAI APRENDER, CÓDIGO A CÓDIGO:</h2>
-      <article class="mm-card"><img class="mm-face" src="img/dayana-avatar-toga.jpg" alt="Dayana Martins"><b>8 AULAS CURTAS COMIGO</b><p>Uma para cada código e uma sobre fé e preparação. Aulas curtas, de 3 a 10 minutos.</p></article>
+      <article class="mm-card"><img class="mm-face" src="img/dayana-avatar-toga.jpg" alt="Dayana Martins"><b>7 AULAS DOS 7 CÓDIGOS DA APROVAÇÃO</b><p>Uma aula para cada código, gravada comigo. E a aula bônus: <b>Aprovado diante de Deus</b>.</p></article>
       <article class="mm-card"><b>OS 7 CÓDIGOS DA APROVAÇÃO</b><p>Começando pelo seu: <b>${COD[t].nome}</b>.</p><div class="chips">${ORDEM.map(c => `<span class="${c === t ? "me" : ""}">${COD[c].nome}</span>`).join("")}</div></article>
       <article class="mm-card"><b>CADA AULA TERMINA COM UMA PRÁTICA DE 7 DIAS</b><p>Nada de teoria solta: você sai de cada aula sabendo o que fazer na semana.</p></article>
 
@@ -1501,9 +1500,9 @@ const S = [
       <p class="mm-calm">FIQUE ${g("TRANQUILO", "TRANQUILA")}!<br>Para você chegar à prova ${g("pronto", "pronta")} e saber o que fazer se o resultado não vier…</p>
       <div class="mm-soft">Você terá:</div>
       ${bonus.map((x, i) => `<div class="mm-bh">#BÔNUS 0${i + 1}: ${x.nome}</div>
-        <article class="mm-bonus"><img src="${x.img}" alt="Capa do bônus ${x.nome}"><b>${x.sub}</b><p>${fx(x.txt)}</p><span class="mm-val">VALOR ESTIMADO: <s>${brl(x.valor)}</s></span>${x.id === hot ? `<em class="mm-tag">Resolve a sua trava</em>` : ""}</article>`).join("")}
+        <article class="mm-bonus"><img src="${x.img}" alt="Capa do bônus ${x.nome}"><p>${fx(x.txt)}</p>${x.itens ? `<p><b>${x.rotulo ? x.rotulo + ": " : ""}</b>${x.itens.join(" · ")}</p>` : ""}${x.nota ? `<p>${x.nota}</p>` : ""}<span class="mm-val">VALOR ESTIMADO: <s>${brl(x.valor)}</s></span>${x.id === hot ? `<em class="mm-tag">Para você</em>` : ""}</article>`).join("")}
 
-      <div class="mm-obj"><b>“E se eu não tiver tempo?”</b><p>As aulas são curtas e a prática cabe na sua rotina: a semente mínima é o que você faz até no pior dia.</p></div>
+      <div class="mm-obj"><b>“E se eu não tiver tempo?”</b><p>Cada aula termina com uma prática para os próximos 7 dias, que cabe na sua rotina: a semente mínima é o que você faz até no pior dia.</p></div>
       <div class="mm-obj"><b>“E se não for para mim?”</b><p>Você tem 7 dias de garantia. Assista às aulas: se não fizer sentido, devolvemos 100% do seu dinheiro.</p></div>
 
       <p class="mm-lapis">Se somarmos os bônus na ponta do lápis, daria…</p>
@@ -1511,7 +1510,7 @@ const S = [
         ${BONUS.map(x => `<li><b>${x.nome.toUpperCase()}</b><span>${brl(x.valor)}</span></li>`).join("")}
       </ul>
       <p class="mm-total"><s>${brl(total)}</s></p>
-      <p class="mm-porem">PORÉM, VOCÊ LEVA AS 8 AULAS E OS 5 BÔNUS POR…</p>
+      <p class="mm-porem">PORÉM, VOCÊ LEVA AS 7 AULAS, A AULA BÔNUS E OS 5 BÔNUS POR…</p>
       ${pack}
       ${priceBox}
 
@@ -1550,7 +1549,7 @@ const S = [
       <div class="ck-top"><span>🔒 Pagamento 100% seguro</span><span>Plataforma ${TBD}</span></div>
       <div class="ck-prod">
         <img class="ck-cover" src="img/dayana-avatar-toga.jpg" alt="Dayana Martins">
-        <div><b>Os 7 Códigos da Aprovação</b><small>8 aulas + 5 bônus · acesso por e-mail</small><p class="ck-price">R$47</p></div>
+        <div><b>Os 7 Códigos da Aprovação</b><small>7 aulas + aula bônus + 5 bônus · acesso por e-mail</small><p class="ck-price">R$47</p></div>
       </div>
       <form class="ck-form" id="ck" novalidate>
         <h3 class="ck-h">1. Seus dados</h3>
@@ -1607,7 +1606,7 @@ const S = [
       <p class="v-p center">A partir de agora, você não está mais ${g("sozinho", "sozinha")} até a prova.</p>
       <div class="ck-prod ty-prod">
         <img class="ck-cover" src="img/dayana-avatar-toga.jpg" alt="Dayana Martins">
-        <div><span class="v-pill">ACESSO LIBERADO</span><b>Os 7 Códigos da Aprovação</b><small>8 aulas + 5 bônus</small></div>
+        <div><span class="v-pill">ACESSO LIBERADO</span><b>Os 7 Códigos da Aprovação</b><small>7 aulas + aula bônus + 5 bônus</small></div>
       </div>
       ${ph("VÍDEO", "Boas-vindas da Dayana (até 1 min)", "O que fazer nas próximas 24 horas. Gravar junto com as aulas.", "ty-vid")}
       <h2 class="v-h2">SEUS PRÓXIMOS 3 PASSOS</h2>
@@ -1623,7 +1622,7 @@ const S = [
         <p class="v-p">A próxima etapa é a <b>Mentoria Método Aprovação</b>: acompanhamento ao vivo para estudar com estratégia, constância e direção. Nome, data e formato ${TBD}.</p>
         <ul class="v-best">
           <li>Encontros ao vivo com a Dayana</li>
-          <li>Plano, revisão e correção de rota</li>
+          <li>O método de estudo completo, com acompanhamento</li>
           <li>Prioridade para quem está na lista VIP</li>
         </ul>
         <button type="button" class="v-buy" data-vip>QUERO ENTRAR NA LISTA VIP</button>

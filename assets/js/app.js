@@ -699,7 +699,7 @@
     h += '<section class="sec requisitos"><h2 class="tit-sec">O que você precisa para destravar a sua aprovação?</h2><ol class="req">' +
       '<li><span class="req-n">1</span><span>' + fill('O tempo que você já tem: <b>{horas}</b> por dia.') + '</span></li>' +
       '<li><span class="req-n">2</span><span>' + fill('Saber por onde começar: o código <b>{CODIGO_TRAVADO}</b>.') + '</span></li>' +
-      '<li><span class="req-n">3</span><span>Um método para revisar no tempo certo, antes de esquecer.</span></li></ol>' +
+      '<li><span class="req-n">3</span><span>Os 7 códigos, um de cada vez, com uma prática para cada semana.</span></li></ol>' +
       '<p class="req-fim">Os três estão no plano abaixo.</p></section>';
 
     var fe = is(A, 'P22', 3);
