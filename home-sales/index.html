@@ -817,9 +817,10 @@ const S = [
   /* ================= FASE 1 · ABERTURA DO PROCESSO ================= */
   { render: () => `
       <div class="banner" data-drop="2">Responda e receba a sua sentença</div>
-      <h1>Qual é a <span class="hl-money">sua sentença</span>?</h1>
-      <p class="sub" data-drop="3">Uma ex-juíza, <u>aprovada aos 23 anos em 7º lugar</u>, examina a sua preparação e mostra o que mudar primeiro e o que fazer nos próximos 7 dias.</p>
-      <div class="go" data-drop="1">↓ RESPONDA PARA COMEÇAR ↓</div>
+      <h1>Até quando você vai estudar sem ver seu nome na <span class="hl-money">lista de aprovados</span>?</h1>
+      <p class="sub" data-drop="3">Descubra a sua sentença: o que mudar na sua preparação nos próximos 7 dias.</p>
+      <p class="hint" data-drop="4">Com Dayana Martins, ex-juíza aprovada aos 23 anos.</p>
+      <div class="go" data-drop="1">👇 RESPONDA PARA COMEÇAR</div>
       <h2>Você é homem ou mulher?</h2>
       <div class="pics two fill">
         ${pic("genero", "homem", "Homem", "img/genero-homem.jpg")}
@@ -918,7 +919,7 @@ const S = [
       <span class="badge" data-drop="3">Abertura dos autos</span>
       <h2>${head}</h2>
       <div class="media dt fill"><img src="img/dayana-toga.jpg" alt="Dayana Martins de toga"></div>
-      <p class="lead">Fui aprovada juíza aos 23 anos, em 7º lugar, com menos de um ano de preparação. <b>Agora vou examinar a sua preparação.</b></p>
+      <p class="lead">Fui aprovada juíza aos 23 anos, com menos de um ano de preparação. <b>Agora vou examinar a sua preparação.</b></p>
       <div class="nums" data-drop="2"><div><b>29</b><span>vagas no meu concurso</span></div><div class="alerta"><b>17</b><span>tomaram posse</span></div></div>
       <div class="echo">${linha}</div>`; } },
 
@@ -1282,7 +1283,7 @@ const S = [
   { cta: "CONTINUAR", render: () => {
       const Q = {
         metodo:     ["Método claro é exatamente o que eu vou te entregar.", "Cada aula termina com uma prática para os próximos 7 dias. E no Diário do Concurseiro você anota o que estudou, errou e precisa revisar.", `<div class="media pr fill"><img src="img/bonus-diario.jpg" alt="Diário do Concurseiro"></div>`],
-        alguem:     ["Eu já passei por esse caminho. E vou com você.", "Aprovada juíza aos 23 anos, em 7º lugar, com menos de um ano de preparação. De 2011 a 2021, fui mentora de concurseiros: eu ensinava como estudar e como continuar.", `<div class="media dt fill"><img src="img/dayana-toga.jpg" alt="Dayana Martins de toga"></div>`],
+        alguem:     ["Eu já passei por esse caminho. E vou com você.", "Aprovada juíza aos 23 anos, com menos de um ano de preparação. De 2011 a 2021, fui mentora de concurseiros: eu ensinava como estudar e como continuar.", `<div class="media dt fill"><img src="img/dayana-toga.jpg" alt="Dayana Martins de toga"></div>`],
         constancia: ["Começar e parar tem solução: a semente mínima.", "O pouco que você faz até no pior dia. Eu estudei trabalhando: saía do tribunal às 13h, estudava à tarde e ia para o cursinho à noite.", `<div class="media pr fill"><img src="img/depo-adriana-2.jpg" alt="Mensagem da aluna Adriana Lima: consegui cumprir tudo do cronograma"></div>`],
         fe:         ["Você não precisa escolher entre método e fé.", "Na Aula 8, Aprovado diante de Deus, eu mostro como colocar a fé na preparação. E o Devocional do Concurseiro traz um versículo e um estudo por dia, durante 30 dias.", `<div class="media pr fill"><img src="img/bonus-devocional.jpg" alt="Devocional do Concurseiro"></div>`],
         acreditar:  [`Ninguém se sente ${g("pronto", "pronta")}. Quem passa se posiciona mesmo assim.`, "Eu estudei em escola pública no interior de Goiás. Antes de passar para escrevente, aos 19 anos, fui reprovada. Tá com medo? Vai com medo mesmo.", `<div class="media cn fill"><img src="img/cena-atacante.jpg" alt="Jogador em posição de ataque"></div>`]
@@ -1391,7 +1392,7 @@ const S = [
       <h2>Quem examinou a sua preparação <span class="hl-money">já esteve do outro lado da mesa</span></h2>
       <div class="media dp fill"><img src="img/dayana-blazer.jpg" alt="Dayana Martins de blazer"></div>
       <ul class="facts tight">
-        <li><span class="ck">✓</span><span>Aprovada juíza aos 23 anos, em 7º lugar, no primeiro e único concurso de juiz que fez</span></li>
+        <li><span class="ck">✓</span><span>Aprovada juíza aos 23 anos, no primeiro e único concurso de juiz que fez</span></li>
         <li><span class="ck">✓</span><span>Quase 20 anos dentro do Judiciário, de escrevente a juíza</span></li>
         <li data-drop="2"><span class="ck">✓</span><span>Mentora de concurseiros de 2011 a 2021</span></li>
       </ul>` },
@@ -1520,7 +1521,7 @@ const S = [
       <h2 class="mm-h2">QUEM VAI SENTAR AO SEU LADO</h2>
       <div class="v-img"><img src="img/dayana-branco.jpg" alt="Dayana Martins"></div>
       <div class="v-stats">
-        <div>APROVADA JUÍZA AOS <b>23 ANOS, EM 7º LUGAR</b></div>
+        <div>APROVADA JUÍZA AOS <b>23 ANOS</b>, NO PRIMEIRO CONCURSO</div>
         <div><b>QUASE 20 ANOS</b> DENTRO DO JUDICIÁRIO, DE ESCREVENTE A JUÍZA</div>
         <div>MENTORA DE CONCURSEIROS DE <b>2011 A 2021</b></div>
       </div>
