@@ -1,0 +1,1724 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Qual é a sua sentença? · Dayana Martins</title>
+<link rel="preload" as="image" href="img/genero-homem.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="img/genero-mulher.jpg" fetchpriority="high">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: uma tela = uma altura de celular. Coluna única (máx. 480px) em flex vertical:
+   topo fixo em altura, conteúdo que encolhe (fotos absorvem a sobra), botão no rodapé dentro da safe area.
+   Regra: nada rola. Se a tela não couber, os blocos marcados com data-drop somem por prioridade.
+   Visual único e claro por escolha (clone do Home Sales), versão da Dra. Dayana Martins (quiz "Qual é a sua sentença?"). */
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --ink: #030712;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --soft: #f3f4f6;
+  --navy: #14213f;
+  --navy-soft: #eef1f8;
+  --money: #16a34a;
+  --money-soft: #ecfdf3;
+  --money-line: #bbf7d0;
+  --alert: #dc2626;
+  --alert-soft: #fef2f2;
+  --alert-line: #fecaca;
+  --ico-line: #4ade80;
+  --ico-soft: rgba(255, 255, 255, .14);
+  --ph-bg: #f6f7fb;
+  --ph-line: #b8c0d6;
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --gap: clamp(8px, 1.6dvh, 14px);
+  --pad: clamp(9px, 1.7dvh, 14px);
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; overflow: hidden; }
+body { margin: 0; background: var(--bg); color: var(--muted); font-family: var(--font); font-size: 16px; line-height: 1.4; -webkit-font-smoothing: antialiased; }
+
+.app { height: 100%; max-width: 480px; margin: 0 auto; padding-inline: 16px; display: flex; flex-direction: column; }
+
+/* topo */
+.top { flex: none; display: grid; grid-template-columns: 32px 1fr 32px; align-items: center; gap: 8px; padding-block: clamp(6px, 1.4dvh, 12px); }
+.back { width: 32px; height: 32px; border: 0; background: transparent; color: var(--ink); font-size: 20px; cursor: pointer; border-radius: 8px; }
+.back:disabled { visibility: hidden; }
+.back:focus-visible, .opt:focus-visible, .pic:focus-visible, .cta:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
+.bar { height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; }
+.bar > i { display: block; height: 100%; width: 0; background: var(--ink); border-radius: 99px; transition: width .35s ease; }
+
+/* área da tela */
+main { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
+.screen { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: var(--gap); padding-bottom: 12px; overflow: hidden; animation: in .28s ease both; }
+.screen > * { flex: none; }
+.screen > .fill { flex: 1 1 0; min-height: 110px; }
+.pics.four.fill { min-height: 190px; }
+.screen.center-y { justify-content: center; }
+
+/* tipografia */
+.banner { background: #fffbeb; color: #92400e; font-size: 10.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; text-align: center; padding: 6px 10px; border-radius: 8px; }
+h1 { color: var(--ink); font-size: clamp(19px, 3.3dvh, 26px); line-height: 1.12; font-weight: 800; text-align: center; text-transform: uppercase; margin: 0; text-wrap: balance; }
+h2 { color: var(--ink); font-size: clamp(17px, 2.9dvh, 21px); line-height: 1.22; font-weight: 700; text-align: center; margin: 0; text-wrap: balance; }
+.sub { text-align: center; font-size: clamp(11.5px, 1.8dvh, 13px); font-weight: 600; text-transform: uppercase; margin: 0; text-wrap: balance; }
+.hint { text-align: center; font-size: 13px; margin: -4px 0 0; }
+.go { text-align: center; font-size: 11.5px; letter-spacing: .04em; }
+.hl-money { color: var(--money); }
+.hl-alert { color: var(--alert); }
+u { text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.lead { color: var(--ink); font-size: clamp(13px, 2dvh, 15px); text-align: center; margin: 0; text-wrap: pretty; }
+.badge { align-self: center; font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--navy); background: var(--navy-soft); padding: 4px 9px; border-radius: 6px; }
+
+/* opções */
+.opts { display: grid; gap: clamp(6px, 1.1dvh, 10px); }
+.opt { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; font: inherit; font-size: 14px; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: var(--pad) 14px; cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .1s; }
+.opt:hover { border-color: #9ca3af; }
+.opt:active { transform: scale(.99); }
+.opt.on { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+.opt .em { font-size: 20px; width: 26px; text-align: center; flex: none; }
+.opt .tx { min-width: 0; }
+.opt .tx small { display: block; color: var(--muted); font-size: 11.5px; margin-top: 1px; }
+.opt .box { margin-left: auto; width: 20px; height: 20px; border: 1.5px solid #9ca3af; border-radius: 5px; flex: none; display: grid; place-items: center; font-size: 13px; color: #fff; }
+.opt.on .box { background: var(--ink); border-color: var(--ink); }
+
+/* cards com foto: a grade ocupa a sobra da tela e as fotos se ajustam */
+.pics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pics.two { grid-template-rows: minmax(0, 1fr); }
+.pics.four { grid-template-rows: repeat(2, minmax(0, 1fr)); }
+.pic { display: flex; flex-direction: column; min-height: 0; padding: 0; overflow: hidden; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; font: inherit; color: var(--ink); transition: border-color .15s, box-shadow .15s; }
+.pic:hover { border-color: #9ca3af; }
+.pic.on { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+.pic .ph-img { flex: 1 1 0; min-height: 0; background: #f8f8f8; }
+.pic img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 28%; }
+.pic .lbl { flex: none; padding: clamp(7px, 1.3dvh, 11px) 8px; font-size: 14px; font-weight: 500; text-align: center; background: var(--soft); }
+
+/* fotos e inserções */
+.media { border-radius: 12px; overflow: hidden; background: var(--navy); }
+.media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.media.wp img { object-position: 50% 30%; }
+.media.wl img { object-position: 24% 25%; }
+.media.wb img { object-position: 50% 22%; }
+.media.wc img { object-position: 50% 30%; }
+.media.nb img { object-position: 62% 45%; }
+.media.ps img { object-position: 50% 45%; }
+.media.wa img { object-position: 45% 25%; }
+.media.wp2 img { object-position: 45% 30%; }
+.media.wbt img { object-position: 50% 18%; }
+.media.cap img { object-position: 50% 22%; }
+.media.wm img { object-position: 50% 22%; }
+.media.mk { background: #0b1b2e; }
+.media.vid { background: #000; position: relative; }
+.unmute { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); border: 0; border-radius: 999px; background: rgba(3, 7, 18, .78); color: #fff; font: inherit; font-size: 13px; font-weight: 700; padding: 9px 14px; cursor: pointer; white-space: nowrap; }
+.media.pix { position: relative; background: #e5e7eb; }
+.media.pix img { object-position: 50% 38%; }
+.ilus { position: absolute; right: 8px; bottom: 8px; font-size: 10px; font-weight: 600; letter-spacing: .04em; color: #fff; background: rgba(3,7,18,.6); padding: 3px 7px; border-radius: 4px; }
+.media.vid video { display: block; width: 100%; height: 100%; object-fit: contain; background: #000; }
+.media.doc { background: #fff; border: 1px solid var(--line); }
+.media.doc img { object-position: 50% 0%; }
+.media.mk:not(.gq) { background: none; border-radius: 0; display: flex; align-items: center; justify-content: center; min-height: 0; }
+.media.mk:not(.gq) img { width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: unset; border-radius: 12px; }
+.media.mk.gq img { object-fit: cover; object-position: 50% 40%; }
+.vs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.vs-col { display: grid; gap: 3px; align-content: start; border-radius: 10px; padding: clamp(8px, 1.4dvh, 12px) 11px; font-size: 12.5px; color: var(--ink); }
+.vs-col b { font-size: 13px; margin-bottom: 2px; }
+.vs-col span::before { margin-right: 5px; font-weight: 800; }
+.vs-col.bad { background: var(--alert-soft); border: 1px solid var(--alert-line); }
+.vs-col.bad span::before { content: "✕"; color: var(--alert); }
+.vs-col.good { background: var(--money-soft); border: 1px solid var(--money-line); }
+.vs-col.good span::before { content: "✓"; color: var(--money); }
+.duo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.duo > * { min-height: 0; height: 100%; }
+.ph { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; text-align: center; padding: 10px; background: var(--ph-bg); border: 1.5px dashed var(--ph-line); border-radius: 12px; color: #4b5577; font-size: 11.5px; line-height: 1.3; overflow: hidden; }
+.ph .tag { font-size: 9.5px; font-weight: 700; letter-spacing: .1em; color: var(--navy); background: #dfe5f3; padding: 3px 6px; border-radius: 4px; }
+.ph strong { color: var(--ink); font-size: 12.5px; font-weight: 600; }
+
+.facts { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.facts li { display: flex; gap: 9px; align-items: flex-start; font-size: clamp(12.5px, 1.9dvh, 14px); color: var(--ink); background: #f9fafb; border: 1px solid var(--line); border-radius: 10px; padding: clamp(7px, 1.2dvh, 10px) 11px; }
+.facts.tight { gap: 2px; } .facts.tight li { background: none; border: 0; padding: 2px 4px; }
+.facts .ck { color: var(--money); font-weight: 800; flex: none; }
+.quote { background: var(--navy); color: #fff; border-radius: 12px; padding: clamp(10px, 1.7dvh, 15px) 15px; font-size: clamp(13px, 2dvh, 15px); line-height: 1.4; font-weight: 500; }
+.quote cite { display: block; margin-top: 6px; font-style: normal; font-size: 11.5px; color: #c7d0e6; font-weight: 400; }
+.echo { background: var(--money-soft); border: 1px solid var(--money-line); color: #14532d; border-radius: 10px; padding: clamp(8px, 1.4dvh, 12px) 12px; font-size: 13.5px; text-align: center; }
+.echo b { color: var(--money); }
+
+/* rodapé: no fluxo, sempre visível, dentro da safe area */
+.foot { flex: none; padding-block: 8px calc(14px + env(safe-area-inset-bottom, 0px)); }
+.cta { display: block; width: 100%; border: 0; border-radius: 10px; background: var(--ink); color: #fff; font: inherit; font-size: 15px; font-weight: 600; padding: clamp(12px, 2dvh, 15px); cursor: pointer; }
+.cta:disabled { background: #d1d5db; cursor: not-allowed; }
+
+.real { align-self: center; background: var(--money); color: #fff; font-weight: 800; font-size: clamp(18px, 3dvh, 22px); text-align: center; padding: 12px 18px; border-radius: 12px; letter-spacing: .01em; }
+.calc { display: grid; justify-items: center; gap: 4px; border: 2px solid var(--money); border-radius: 14px; padding: clamp(12px, 2.4dvh, 20px) 14px; text-align: center; }
+.calc span { color: var(--ink); font-size: clamp(24px, 4.4dvh, 32px); font-weight: 800; line-height: 1.1; }
+.calc small { font-size: 13px; color: var(--muted); }
+.load { display: grid; gap: 8px; }
+.load-top { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; color: var(--ink); }
+.load-top b { font-variant-numeric: tabular-nums; }
+.load-bar { height: 10px; background: var(--line); border-radius: 99px; overflow: hidden; }
+.load-bar i { display: block; height: 100%; width: 0; background: var(--money); border-radius: 99px; }
+
+.selo { background: var(--money); color: #fff; font-weight: 800; font-size: clamp(13px, 2.1dvh, 16px); line-height: 1.25; text-align: center; padding: clamp(9px, 1.6dvh, 13px) 14px; border-radius: 12px; text-wrap: balance; }
+.cmp, .ad { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.cmp-col, .ad-col { display: grid; gap: 6px; align-content: start; min-width: 0; }
+.ad-col { display: flex; flex-direction: column; gap: 6px; border: 1px solid var(--line); border-radius: 12px; padding: 8px 8px 10px; }
+.ad-col.good { border-color: var(--money); box-shadow: 0 0 0 1px var(--money); }
+.who { position: relative; flex: 1 1 0; min-height: 64px; border-radius: 8px; overflow: hidden; background: var(--soft); }
+.who img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
+.who.bad::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(127, 29, 29, .45), rgba(127, 29, 29, 0) 55%); }
+.who.good::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(20, 83, 45, .5), rgba(20, 83, 45, 0) 55%); }
+.who .cap { position: absolute; z-index: 1; left: 6px; right: 6px; bottom: 6px; color: #fff; font-size: 11px; font-weight: 700; line-height: 1.2; text-align: center; }
+.cmp-h { font-size: 12px; text-align: center; padding: 5px; border-radius: 6px; }
+.cmp-h.bad { background: var(--alert-soft); color: var(--alert); }
+.cmp-h.good { background: var(--money-soft); color: var(--money); }
+.br { display: grid; gap: 3px; font-size: 11.5px; color: var(--ink); }
+.br-t { height: 7px; background: var(--line); border-radius: 99px; overflow: hidden; }
+.br-t i { display: block; height: 100%; border-radius: 99px; }
+.br-t i.bad { background: var(--alert); }
+.br-t i.good { background: var(--money); }
+.said { color: var(--ink); font-size: 14px; }
+.bad-echo { background: var(--alert-soft); border-color: var(--alert-line); color: #7f1d1d; }
+.bad-echo b { color: var(--alert); }
+.rot { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; counter-reset: r; }
+.rot li { counter-increment: r; display: grid; grid-template-columns: 34px 1fr; column-gap: 10px; align-items: center; border: 1px solid var(--line); border-radius: 12px; padding: clamp(9px, 1.6dvh, 13px) 12px; color: var(--ink); }
+.rot li::before { content: counter(r); grid-row: span 2; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--navy); color: #fff; font-weight: 800; }
+.rot li b { font-size: 15px; }
+.rot li span { font-size: 12.5px; color: var(--muted); }
+.rot li.me { border-color: var(--money); box-shadow: 0 0 0 1px var(--money); background: var(--money-soft); }
+.rot li.me::before { background: var(--money); }
+.trilha { display: grid; grid-template-rows: repeat(4, minmax(0, 1fr)); border-left: 3px solid var(--line); margin-left: 10px; padding-left: 18px; }
+.tr-step { position: relative; display: grid; align-content: center; gap: 1px; }
+.tr-step i { position: absolute; left: -27px; top: 50%; width: 15px; height: 15px; margin-top: -8px; border-radius: 50%; background: var(--bg); border: 3px solid var(--navy); }
+.tr-step b { color: var(--ink); font-size: 14px; }
+.tr-step span { font-size: 12px; }
+.tr-step.goal i { background: var(--money); border-color: var(--money); }
+.tr-step.goal b { color: var(--money); }
+.lead-form { display: grid; gap: 10px; }
+.lead-form label { display: grid; gap: 4px; font-size: 12.5px; font-weight: 600; color: var(--ink); }
+.lead-form input { font: inherit; font-size: 16px; color: var(--ink); background: var(--bg); border: 1px solid #d1d5db; border-radius: 10px; padding: 11px 12px; width: 100%; }
+.lead-form input:focus { outline: 2px solid var(--navy); outline-offset: 1px; border-color: var(--navy); }
+.err { margin: 0; color: var(--alert); font-size: 13px; font-weight: 600; }
+.plist { gap: clamp(6px, 1.2dvh, 12px); }
+.plist li { font-size: clamp(12px, 2.1dvh, 16px); line-height: 1.3; padding: 5px 10px 5px 5px; gap: 10px; }
+.plist li { align-items: center; padding: 6px 10px 6px 6px; min-height: 0; }
+.th { flex: none; width: clamp(40px, 9dvh, 104px); aspect-ratio: 1 / 1; border-radius: 8px; overflow: hidden; background: var(--soft); }
+.th img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
+.th.doc img { object-position: center top; }
+.th.ico svg { display: block; width: 100%; height: 100%; }
+.th.ico svg text { stroke: none; font-family: var(--font); }
+
+/* ===== Fase 5 · página de oferta (visual escuro e dourado, modelado na referência) ===== */
+:root { --p-bg: #07090f; --p-card: #10141f; --p-line: rgba(255, 255, 255, .1); --p-text: #f3f4f6; --p-muted: #a3a9b8; --gold-1: #f6dc95; --gold-2: #d4a24c; }
+body.pitch-mode { background: var(--p-bg); }
+body.pitch-mode .back { color: var(--p-text); }
+body.pitch-mode .bar { background: rgba(255, 255, 255, .14); }
+body.pitch-mode .bar > i { background: linear-gradient(90deg, var(--gold-1), var(--gold-2)); }
+body.pitch-mode .cta { background: linear-gradient(180deg, var(--gold-1), var(--gold-2)); color: #1a1205; font-weight: 800; letter-spacing: .02em; box-shadow: 0 0 24px rgba(233, 196, 106, .35); border-radius: 999px; }
+body.pitch-mode .foot { background: linear-gradient(to top, var(--p-bg) 75%, rgba(7, 9, 15, 0)); }
+.screen.scroll { display: block; overflow-y: auto; overflow-x: hidden; padding-bottom: 24px; color: var(--p-muted); scrollbar-width: none; }
+.screen.scroll::-webkit-scrollbar { display: none; }
+.p-hero { display: grid; gap: 14px; text-align: center; padding-bottom: 8px; }
+.p-photo { margin-inline: -16px; aspect-ratio: 4 / 4.2; max-height: 52dvh; position: relative; overflow: hidden; }
+.p-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 15%; display: block; }
+.p-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(7, 9, 15, 0) 45%, var(--p-bg) 98%); }
+.p-logo { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: -64px; position: relative; z-index: 1; }
+.p-logo svg { width: 46px; height: 46px; flex: none; }
+.p-logo svg text { font-family: var(--font); }
+.p-logo div { display: grid; text-align: left; line-height: 1.05; }
+.p-logo small { font-size: 10.5px; color: var(--p-muted); letter-spacing: .04em; }
+.p-logo b { font-size: 20px; color: var(--p-text); letter-spacing: .01em; }
+.p-hero hr { border: 0; height: 1px; background: var(--p-line); margin: 2px 0; }
+.p-h1 { color: var(--p-text); font-size: clamp(21px, 5.6vw, 26px); line-height: 1.22; font-weight: 600; margin: 0; text-transform: none; text-align: center; text-wrap: balance; }
+.gold { background: linear-gradient(90deg, var(--gold-1), var(--gold-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.p-sub { margin: 0; font-size: 15px; line-height: 1.6; color: var(--p-muted); text-wrap: pretty; }
+.p-sub b, .p-txt b { color: var(--p-text); }
+.p-btn { display: block; width: 100%; border: 0; border-radius: 999px; padding: 17px 16px; font: inherit; font-size: 16px; font-weight: 800; letter-spacing: .02em; color: #1a1205; background: linear-gradient(180deg, var(--gold-1), var(--gold-2)); box-shadow: 0 0 28px rgba(233, 196, 106, .35); cursor: pointer; }
+.p-btn:focus-visible { outline: 2px solid var(--p-text); outline-offset: 3px; }
+.p-mini { margin: 0; font-size: 12px; letter-spacing: .1em; color: var(--p-muted); text-align: center; }
+.p-sec { display: grid; gap: 14px; padding-block: 28px; border-top: 1px solid var(--p-line); }
+.p-h2 { color: var(--p-text); font-size: 21px; line-height: 1.25; font-weight: 700; margin: 0; text-align: center; text-wrap: balance; }
+.p-txt { margin: 0; font-size: 15px; line-height: 1.6; }
+.p-check { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.p-check li { position: relative; padding-left: 28px; font-size: 14.5px; line-height: 1.5; color: var(--p-text); }
+.p-check li::before { content: "✓"; position: absolute; left: 0; top: 0; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 800; color: #1a1205; background: linear-gradient(180deg, var(--gold-1), var(--gold-2)); }
+.p-check li b { color: var(--gold-1); }
+.p-img { border-radius: 14px; overflow: hidden; }
+.p-img img { display: block; width: 100%; height: auto; }
+.p-quote { margin: 0; padding: 14px 16px; border-left: 3px solid var(--gold-2); background: var(--p-card); border-radius: 0 10px 10px 0; color: var(--p-text); font-size: 15px; font-style: italic; }
+.rot.dark li { background: var(--p-card); border-color: var(--p-line); color: var(--p-text); }
+.rot.dark li::before { background: linear-gradient(180deg, var(--gold-1), var(--gold-2)); color: #1a1205; }
+.rot.dark li span { color: var(--p-muted); }
+.p-steps { display: grid; gap: 10px; }
+.p-step { background: var(--p-card); border: 1px solid var(--p-line); border-radius: 12px; padding: 14px; display: grid; gap: 8px; }
+.p-tag { justify-self: start; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--gold-1); }
+.p-step ol { margin: 0; padding-left: 22px; display: grid; gap: 6px; color: var(--p-text); font-size: 14px; }
+.p-step li::marker { color: var(--gold-2); font-weight: 700; }
+.ph.dark { background: var(--p-card); border-color: rgba(233, 196, 106, .4); color: var(--p-muted); min-height: 120px; }
+.ph.dark strong { color: var(--p-text); }
+.ph.dark .tag { background: rgba(233, 196, 106, .15); color: var(--gold-1); }
+.bns { display: grid; gap: 14px; }
+.bn { display: grid; grid-template-columns: 120px 1fr; gap: 12px; background: var(--p-card); border: 1px solid var(--p-line); border-radius: 14px; padding: 10px; align-items: center; }
+.bn.hot { border-color: var(--gold-2); box-shadow: 0 0 0 1px var(--gold-2), 0 0 24px rgba(233, 196, 106, .18); }
+.bn-img { border-radius: 10px; overflow: hidden; aspect-ratio: 4 / 3; background: #0b1b2e; }
+.bn-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.bn-img .ph { height: 100%; min-height: 0; padding: 6px; font-size: 10px; }
+.bn-img .ph strong { font-size: 11px; }
+.bn-tx { display: grid; gap: 3px; min-width: 0; font-size: 13px; line-height: 1.4; }
+.bn-tx b { color: var(--p-text); font-size: 14px; }
+.bn-tx small { color: var(--p-muted); font-size: 12px; }
+.bn-tx em { font-style: normal; color: var(--gold-1); font-weight: 700; font-size: 12.5px; }
+.pill { justify-self: start; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #1a1205; background: linear-gradient(180deg, var(--gold-1), var(--gold-2)); padding: 3px 8px; border-radius: 999px; margin-bottom: 2px; }
+.p-offer { text-align: center; }
+.stack { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; text-align: left; background: var(--p-card); border: 1px solid var(--p-line); border-radius: 12px; }
+.stack li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--p-line); font-size: 13.5px; color: var(--p-text); }
+.stack li:last-child { border-bottom: 0; }
+.stack li b { color: var(--p-muted); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.p-total { margin: 0; font-size: 15px; color: var(--p-text); }
+.p-total s, .p-from s { color: #ef4444; }
+.coupon { justify-self: center; border: 1px dashed var(--gold-2); color: var(--gold-1); border-radius: 8px; padding: 8px 14px; font-size: 13px; }
+.p-from { margin: 0; font-size: 15px; color: var(--p-muted); }
+.p-price { margin: -6px 0 0; font-size: 56px; line-height: 1; font-weight: 800; letter-spacing: -.02em; }
+.p-price { background: linear-gradient(180deg, var(--gold-1), var(--gold-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.p-guar { justify-items: center; text-align: center; }
+.p-guar svg { width: 92px; height: 92px; }
+.p-guar svg text { font-family: var(--font); }
+.faq { display: grid; gap: 8px; }
+.faq details { background: var(--p-card); border: 1px solid var(--p-line); border-radius: 10px; padding: 0 14px; }
+.faq summary { cursor: pointer; padding: 13px 0; color: var(--p-text); font-weight: 600; font-size: 14.5px; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--gold-1); font-weight: 800; }
+.faq details[open] summary::after { content: "–"; }
+.faq p { margin: 0 0 14px; font-size: 14px; line-height: 1.55; }
+.todo { color: var(--gold-1); font-weight: 600; }
+.p-foot { border-top: 1px solid var(--p-line); padding-top: 18px; display: grid; gap: 6px; font-size: 11px; text-align: center; color: #6b7280; }
+.p-foot p { margin: 0; }
+#toast { position: fixed; left: 50%; bottom: calc(96px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 12px); opacity: 0; pointer-events: none; background: #111827; color: #fff; font-size: 13.5px; padding: 10px 16px; border-radius: 10px; transition: opacity .2s, transform .2s; z-index: 20; max-width: calc(100% - 32px); text-align: center; }
+#toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+/* ===== Fase 5 · página de vendas clonada do Home Sales (claro, CTA verde fixo) ===== */
+.screen.scroll { color: var(--muted); }
+.screen.scroll > * + * { margin-top: 16px; }
+.v-h1 { color: var(--ink); font-size: clamp(19px, 5.2vw, 23px); line-height: 1.2; font-weight: 800; text-transform: uppercase; text-align: center; margin: 0; text-wrap: balance; }
+.v-h2 { color: var(--ink); font-size: clamp(18px, 5vw, 21px); line-height: 1.25; font-weight: 800; text-align: center; margin: 32px 0 0 !important; text-wrap: balance; }
+.v-h3 { color: var(--ink); font-size: 18px; font-weight: 700; text-align: center; margin-bottom: 0; }
+.v-p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--ink); }
+.v-p.center, .center { text-align: center; }
+.v-big { margin: 0; color: var(--ink); font-size: 19px; line-height: 1.3; font-weight: 800; text-align: center; text-wrap: balance; }
+.v-ad { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left; }
+.v-ad > div { display: grid; gap: 4px; }
+.v-ad b { text-align: center; color: var(--ink); font-size: 16px; font-weight: 800; }
+.v-pic { aspect-ratio: 1 / 1; border-radius: 12px; overflow: hidden; background: var(--soft); }
+.v-pic img { width: 100%; height: 100%; object-fit: cover; object-position: center 50%; display: block; }
+.v-pic svg { display: block; width: 100%; height: 100%; }
+.v-pic svg text { font-family: var(--font); }
+.v-ad span { color: var(--ink); font-size: 13px; font-weight: 600; }
+.v-ad small { font-size: 12px; font-weight: 600; }
+.v-ad small.neg { color: var(--alert); } .v-ad small.pos { color: var(--money); }
+.v-sl { display: block; height: 6px; border-radius: 99px; background: var(--line); position: relative; }
+.v-sl::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; border-radius: 99px; }
+.v-sl::after { content: ""; position: absolute; top: 50%; width: 14px; height: 14px; margin-top: -7px; border-radius: 50%; background: #fff; border: 2px solid #9ca3af; }
+.v-sl.neg::before { width: 18%; background: var(--alert); } .v-sl.neg::after { left: 15%; }
+.v-sl.pos::before { width: 88%; background: var(--money); } .v-sl.pos::after { left: calc(88% - 10px); }
+.v-scroll { background: var(--alert-soft); border: 1px solid var(--alert-line); color: var(--alert); border-radius: 10px; text-align: center; font-size: 12.5px; font-weight: 700; padding: 12px; line-height: 1.7; }
+.v-ph { min-height: 160px; }
+.v-img { border-radius: 14px; overflow: hidden; }
+.v-img img { display: block; width: 100%; height: auto; }
+.v-stats { display: grid; gap: 8px; }
+.v-stats div { background: var(--navy); color: #dfe5f3; border-radius: 10px; padding: 12px 14px; font-size: 13px; text-align: center; line-height: 1.4; }
+.v-stats b { color: #fff; }
+.v-need { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.v-need li { display: flex; gap: 12px; align-items: center; border: 1px solid var(--line); border-radius: 10px; padding: 12px; color: var(--ink); font-size: 13.5px; font-weight: 700; }
+.v-need li span { font-size: 22px; }
+.v-quiz { display: grid; gap: 6px; background: var(--money-soft); border: 1px solid var(--money-line); border-radius: 12px; padding: 14px; color: #14532d; font-size: 14px; }
+.v-quiz b { color: var(--ink); }
+.v-ok { margin: 0; text-align: center; background: var(--money); color: #fff; font-weight: 800; border-radius: 10px; padding: 12px; font-size: 16px; }
+.v-best { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.v-best li { color: var(--ink); font-weight: 700; font-size: 14px; padding-left: 26px; position: relative; }
+.v-best li::before { content: "✓"; position: absolute; left: 0; color: var(--money); font-weight: 800; }
+.v-brand { display: grid; justify-items: center; background: var(--navy); color: #fff; border-radius: 14px; padding: 18px; }
+.v-brand small { color: #c7d0e6; font-size: 12px; }
+.v-brand b { font-size: 26px; letter-spacing: .01em; }
+.v-src { border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: grid; gap: 6px; }
+.v-src b { color: var(--ink); font-size: 15px; }
+.v-src p { margin: 0; font-size: 13px; color: var(--muted); }
+.v-range { margin: 0; text-align: center; font-size: 30px; font-weight: 800; color: var(--money); }
+.v-all { display: grid; gap: 6px; text-align: center; color: var(--ink); font-size: 14px; font-weight: 600; }
+.v-all b { font-size: 15px; }
+.v-step { border-left: 4px solid var(--money); background: #f9fafb; border-radius: 0 10px 10px 0; padding: 12px 14px; }
+.v-step b { color: var(--ink); font-size: 15px; }
+.v-step p { margin: 4px 0 0; font-size: 13.5px; }
+.v-bns { display: grid; gap: 14px; }
+.v-bn { position: relative; display: grid; gap: 6px; border: 1px solid var(--line); border-radius: 14px; padding: 12px; text-align: center; }
+.v-bn.hot { border-color: var(--money); box-shadow: 0 0 0 1px var(--money); }
+.v-pill { justify-self: center; background: var(--money); color: #fff; font-size: 10.5px; font-weight: 800; letter-spacing: .06em; padding: 4px 10px; border-radius: 999px; }
+.v-bn-img { aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; background: #0b1b2e; }
+.v-bn-img img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
+.v-bn-img .ph { height: 100%; border-radius: 10px; }
+.v-bn b { color: var(--ink); font-size: 15px; }
+.v-bn p { margin: 0; font-size: 12.5px; }
+.v-bn small { font-size: 13px; color: var(--ink); font-weight: 600; }
+.v-stack { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 12px; }
+.v-stack li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 12px; border-bottom: 1px solid var(--line); font-size: 12.5px; color: var(--ink); font-weight: 600; }
+.v-stack li:last-child { border-bottom: 0; }
+.tbd { display: inline-block; background: #fef3c7; color: #92400e; border: 1px dashed #f59e0b; border-radius: 6px; padding: 1px 6px; font-size: .85em; font-weight: 700; white-space: nowrap; }
+.v-timer { display: flex; justify-content: center; align-items: baseline; gap: 4px; color: var(--alert); }
+.v-timer b { font-size: 34px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.v-timer small { font-size: 12px; } .v-timer span { font-size: 28px; font-weight: 800; }
+.v-price { display: grid; gap: 8px; justify-items: center; text-align: center; border: 2px solid var(--money); border-radius: 16px; padding: 16px; }
+.v-off { background: var(--alert); color: #fff; font-size: 11.5px; font-weight: 800; padding: 5px 10px; border-radius: 6px; }
+.v-off .tbd { background: #fff; }
+.v-price > b { color: var(--ink); font-size: 15px; }
+.v-47 { margin: 0; color: var(--money); font-size: 46px; font-weight: 800; line-height: 1; }
+.v-47 small { font-size: 15px; color: var(--muted); font-weight: 600; }
+.v-buy { width: 100%; border: 0; border-radius: 10px; background: var(--money); color: #fff; font: inherit; font-size: 16px; font-weight: 800; padding: 16px; cursor: pointer; }
+.v-guar { display: grid; justify-items: center; gap: 6px; text-align: center; }
+.v-guar svg { width: 90px; height: 90px; } .v-guar svg text { font-family: var(--font); }
+.v-faq { display: grid; gap: 8px; }
+.v-faq details { border: 1px solid var(--line); border-radius: 10px; padding: 0 14px; }
+.v-faq summary { cursor: pointer; padding: 13px 0; color: var(--ink); font-weight: 700; font-size: 14px; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+.v-faq summary::-webkit-details-marker { display: none; }
+.v-faq summary::after { content: "+"; color: var(--money); font-weight: 800; }
+.v-faq details[open] summary::after { content: "–"; }
+.v-faq p { margin: 0 0 14px; font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+.v-foot { border-top: 1px solid var(--line); padding-top: 16px; margin-top: 28px !important; display: grid; gap: 8px; font-size: 11px; color: var(--muted); text-align: center; }
+.v-foot p { margin: 0; line-height: 1.5; }
+body:has(.screen.scroll) .cta { background: var(--money); font-weight: 800; letter-spacing: .02em; }
+.ba { display: grid; grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr); gap: 6px; }
+.ba-row { display: grid; grid-template-columns: minmax(0, 38%) 1fr; gap: 10px; align-items: stretch; border: 1px solid var(--line); border-radius: 12px; padding: 8px; min-height: 0; }
+.ba-row.bad { background: var(--alert-soft); border-color: var(--alert-line); }
+.ba-row.good { background: var(--money-soft); border-color: var(--money); }
+.ba-pic { position: relative; border-radius: 8px; overflow: hidden; min-height: 0; }
+.ba-pic img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 22%; }
+.ba-row:has(.phone) { grid-template-columns: auto 1fr; align-items: center; }
+.ba-pic.phone { background: #dcc3c9; height: clamp(130px, 30dvh, 300px); aspect-ratio: 140 / 220; width: auto; }
+.ba-pic.phone svg { display: block; width: 100%; height: 100%; }
+.ba-pic.phone svg text { font-family: var(--font); }
+.ba-pic span { position: absolute; left: 6px; top: 6px; font-size: 10.5px; font-weight: 800; letter-spacing: .06em; color: #fff; padding: 3px 7px; border-radius: 5px; }
+.bad .ba-pic span { background: var(--alert); } .good .ba-pic span { background: var(--money); }
+.ba-bars { display: grid; align-content: center; gap: clamp(3px, .8dvh, 8px); min-width: 0; }
+.ba-arrow { text-align: center; font-size: 12px; font-weight: 700; color: var(--money); }
+
+/* ===== Checkout (protótipo) ===== */
+.ck-top { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 12px; color: var(--money); font-weight: 700; }
+.ck-prod { display: grid; grid-template-columns: 92px 1fr; gap: 12px; align-items: center; border: 1px solid var(--line); border-radius: 12px; padding: 10px; }
+.ck-cover { width: 100%; object-fit: cover; aspect-ratio: 3 / 4; border-radius: 8px; background: linear-gradient(160deg, #1b2c52, #0b1b2e); color: #fff; display: grid; align-content: center; justify-items: center; text-align: center; padding: 6px; }
+img.ck-cover { padding: 0; display: block; }
+.ck-cover span { font-size: 8px; color: #c7d0e6; } .ck-cover b { font-size: 13px; line-height: 1.1; color: #4ade80; }
+.ck-prod b { color: var(--ink); font-size: 14px; } .ck-prod small { display: block; font-size: 12px; margin-top: 2px; }
+.ck-price { margin: 6px 0 0; color: var(--money); font-size: 22px; font-weight: 800; } .ck-price s { color: var(--muted); font-size: 14px; font-weight: 500; margin-right: 4px; }
+.ck-form { display: grid; gap: 10px; }
+.ck-h { margin: 8px 0 0; color: var(--ink); font-size: 15px; }
+.ck-form label { display: grid; gap: 4px; font-size: 12.5px; font-weight: 600; color: var(--ink); min-width: 0; }
+.ck-form input[type=text], .ck-form input[type=email], .ck-form input[type=tel], .ck-form select { font: inherit; font-size: 16px; color: var(--ink); background: var(--bg); border: 1px solid #d1d5db; border-radius: 10px; padding: 11px 12px; width: 100%; min-width: 0; }
+.ck-form input:disabled, .ck-form select:disabled { background: var(--soft); color: var(--muted); }
+.ck-form input:focus, .ck-form select:focus { outline: 2px solid var(--money); outline-offset: 1px; }
+.ck-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ck-pay { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.ck-pay button { font: inherit; font-size: 14px; font-weight: 700; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 11px 6px; cursor: pointer; }
+.ck-pay button.on { border-color: var(--money); box-shadow: 0 0 0 1px var(--money); color: var(--money); background: var(--money-soft); }
+.ck-panel { display: grid; gap: 10px; } .ck-panel p { margin: 0; font-size: 13px; color: var(--ink); }
+.ck-note { background: #fffbeb; border: 1px dashed #f59e0b; border-radius: 8px; padding: 8px 10px; color: #92400e !important; font-size: 12px !important; }
+.ck-bump { display: grid !important; grid-template-columns: auto 1fr; gap: 10px !important; align-items: start; border: 2px dashed var(--alert); background: #fffbeb; border-radius: 12px; padding: 12px; cursor: pointer; }
+.ck-bump input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--money); }
+.ck-bump span { display: grid; gap: 4px; } .ck-bump b { color: var(--alert); font-size: 13.5px; } .ck-bump small { font-weight: 400; color: var(--muted); font-size: 12px; } .ck-bump em { font-style: normal; color: var(--money); font-weight: 800; }
+.ck-sum { border: 1px solid var(--line); border-radius: 12px; padding: 4px 12px; }
+.ck-sum div { display: flex; justify-content: space-between; gap: 10px; padding: 8px 0; font-size: 13.5px; color: var(--ink); border-bottom: 1px solid var(--line); }
+.ck-sum div:last-child { border-bottom: 0; } .ck-sum .tot b { color: var(--money); font-size: 17px; }
+.ck-err { margin: 0; color: var(--alert); font-size: 13px; font-weight: 600; }
+.ck-trust { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ck-trust div { border: 1px solid var(--line); border-radius: 10px; padding: 10px; display: grid; gap: 2px; text-align: center; }
+.ck-trust b { color: var(--ink); font-size: 13px; } .ck-trust small { font-size: 11.5px; }
+.ck-legal { margin: 0; font-size: 11px; text-align: center; color: var(--muted); }
+.ck-hint { font-weight: 400; font-size: 12px; color: var(--muted); }
+.ck-bumps { display: grid; gap: 10px; }
+.ck-bump.on { border-style: solid; border-color: var(--money); background: var(--money-soft); }
+.ck-bump em s { color: var(--alert); font-weight: 600; margin-right: 4px; }
+.ck-clock { display: grid; gap: 6px; border: 1px solid var(--alert-line); background: var(--alert-soft); border-radius: 10px; padding: 10px 12px; }
+.ck-clock-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; color: var(--alert); }
+.ck-clock-top b { font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.ck-thermo { height: 8px; border-radius: 99px; background: #fff; overflow: hidden; border: 1px solid var(--alert-line); }
+.ck-thermo i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, #f59e0b, var(--alert)); border-radius: 99px; transition: width 1s linear; }
+.v-guar-img { max-width: 320px; width: 100%; }
+.ty-ok { display: grid; justify-items: center; } .ty-ok svg { width: 64px; height: 64px; }
+.ty-prod { border-color: var(--money-line); } .ty-prod .v-pill { justify-self: start; margin-bottom: 4px; display: inline-block; } .ty-prod b { display: block; }
+.ty-vid { aspect-ratio: 16 / 9; }
+.ty-box { border: 1px solid var(--money-line); background: var(--money-soft); border-radius: 12px; padding: 14px; display: grid; gap: 8px; color: var(--ink); }
+.ty-steps { margin: 0; padding: 0; list-style: none; counter-reset: t; display: grid; gap: 10px; }
+.ty-steps li { counter-increment: t; display: grid; grid-template-columns: 34px 1fr; column-gap: 10px; align-items: start; border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+.ty-steps li::before { content: counter(t); grid-row: span 2; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--money); color: #fff; font-weight: 800; }
+.ty-steps b { color: var(--ink); font-size: 14.5px; } .ty-steps span { font-size: 13px; line-height: 1.45; }
+.ty-vip { display: grid; gap: 12px; border: 2px solid var(--navy); border-radius: 16px; padding: 16px; background: var(--navy-soft); margin-top: 28px !important; }
+.ty-vip .v-best li { font-weight: 600; }
+.ty-insta { display: grid; gap: 4px; text-align: center; border: 1px solid var(--line); border-radius: 12px; padding: 12px; color: var(--ink); font-size: 13.5px; }
+.w32-h { font-size: clamp(16px, 2.7dvh, 21px); }
+.screen > .w32-img { min-height: 72px; }
+.w32-p { margin: 0; color: var(--ink); font-size: clamp(12.5px, 1.95dvh, 15px); line-height: 1.4; text-align: center; text-wrap: pretty; }
+.w32-e { font-size: clamp(12.5px, 1.95dvh, 14px); line-height: 1.4; }
+.pl-h1 { color: var(--ink); font-size: clamp(20px, 5.4vw, 24px); line-height: 1.25; font-weight: 800; margin: 4px 0 0; text-wrap: balance; }
+.pl-p { margin: 0; color: var(--ink); font-size: 15px; line-height: 1.55; }
+.pl-lead { margin: 0; color: var(--ink); font-size: 16px; font-weight: 800; }
+.pl-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: pl; }
+.pl-step { counter-increment: pl; position: relative; display: grid; gap: 4px; border: 1px solid var(--line); border-radius: 12px; padding: 14px 14px 14px 56px; }
+.pl-step::before { content: counter(pl); position: absolute; left: 14px; top: 14px; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--navy); color: #fff; font-weight: 800; font-size: 14px; }
+.pl-step b { color: var(--ink); font-size: 15px; line-height: 1.3; }
+.pl-step span { font-size: 13.5px; line-height: 1.5; }
+.pl-step.hot { border-color: var(--money); box-shadow: 0 0 0 1px var(--money); background: var(--money-soft); }
+.pl-step.hot::before { background: var(--money); }
+.pl-step .pl-tag { justify-self: start; font-size: 10.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #fff; background: var(--money); padding: 3px 8px; border-radius: 999px; line-height: 1.4; }
+.pl-dream { border-radius: 14px; padding: 16px; background: var(--navy); color: #dfe5f3; display: grid; gap: 6px; }
+.pl-dream b { color: #fff; font-size: 17px; line-height: 1.3; }
+.pl-dream p { margin: 0; font-size: 14px; line-height: 1.55; }
+.pl-end { margin: 0; text-align: center; color: var(--ink); font-size: 16px; font-weight: 800; text-wrap: balance; }
+.pl-res { display: grid; gap: 8px; border: 2px solid var(--money); background: var(--money-soft); border-radius: 14px; padding: 14px; }
+.pl-res-k { justify-self: start; background: var(--money); color: #fff; font-size: 11px; font-weight: 800; letter-spacing: .08em; padding: 4px 10px; border-radius: 999px; }
+.pl-res b { color: var(--ink); font-size: 17px; line-height: 1.3; }
+.pl-res ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; color: #14532d; font-size: 13.5px; font-weight: 600; }
+.pl-fig { margin: 0; display: grid; gap: 8px; }
+.pl-fig img { display: block; width: 100%; height: clamp(150px, 26dvh, 260px); object-fit: cover; object-position: 50% 20%; border-radius: 14px; }
+.pl-fig figcaption { font-size: 12.5px; line-height: 1.45; text-align: center; color: var(--muted); }
+.pl-fig figcaption b { color: var(--ink); }
+.v-brand small:last-child { margin-top: 4px; }
+.media.vid.sv { aspect-ratio: 9 / 14; max-height: 70dvh; }
+.v-apoio { text-align: left; background: var(--navy-soft); border-color: var(--navy) !important; }
+.v-apoio b { text-align: center; }
+.v-apoio ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: 13px; color: var(--ink); }
+.v-apoio small { text-align: center; }
+.v-bn small s, .v-stack b, .v-total s { color: var(--alert); }
+.v-total { margin: 0; text-align: center; color: var(--ink); font-size: 17px; font-weight: 800; }
+.rot.rot-ico li { grid-template-columns: clamp(42px, 8.5dvh, 92px) 1fr; column-gap: 12px; padding: clamp(8px, 1.4dvh, 12px) 12px; }
+.rot.rot-ico li::before { display: none; }
+.rot.rot-ico li img { grid-row: span 2; width: 100%; aspect-ratio: 1 / 1; object-fit: contain; display: block; }
+.rot.rot-ico li b { align-self: end; }
+.rot.rot-ico li span { align-self: start; }
+@media (max-height: 600px) { .rot.rot-ico li { grid-template-columns: 1fr; } .rot.rot-ico li img { display: none; } }
+
+/* ===== Página de vendas no formato da página do Pablo (Mente Milionária) ===== */
+.mm-h1 { color: var(--ink); font-size: clamp(22px, 6.4vw, 28px); line-height: 1.15; font-weight: 800; text-transform: uppercase; text-align: center; margin: 4px 0 0; text-wrap: balance; }
+.mm-ad { display: grid; grid-template-columns: 1fr 1fr; column-gap: 14px; row-gap: 10px; }
+.mm-ad-h { text-align: center; font-size: 22px; font-weight: 800; }
+.mm-ad-h.bad { color: var(--alert); } .mm-ad-h.good { color: var(--money); }
+.lv { display: grid; gap: 2px; color: var(--ink); }
+.lv b { font-size: 13.5px; } .lv span { font-size: 13px; color: var(--muted); }
+.lv-t { position: relative; display: block; height: 8px; border-radius: 99px; background: var(--line); margin: 6px 0 4px; }
+.lv-t u { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 99px; text-decoration: none; }
+.lv-t.bad u { background: var(--alert); } .lv-t.good u { background: var(--money); }
+.lv-t s { position: absolute; top: 50%; width: 18px; height: 18px; margin-top: -9px; border-radius: 50%; background: #fff; border: 3px solid #d1d5db; }
+.mm-name { background: var(--soft); border: 1px solid var(--line); border-radius: 12px; padding: 12px; text-align: center; color: var(--ink); font-size: 24px; font-weight: 800; }
+.mm-vid { aspect-ratio: 9 / 13; max-height: 70dvh; border-radius: 14px; }
+.mm-sign { margin: 0; text-align: center; color: var(--ink); font-size: 22px; font-weight: 800; font-style: italic; }
+.mm-sub { margin: -8px 0 0; text-align: center; color: var(--ink); font-size: 15px; }
+.mm-h2 { color: var(--ink); font-size: clamp(19px, 5.4vw, 23px); line-height: 1.2; font-weight: 800; text-align: center; margin: 30px 0 0 !important; text-wrap: balance; }
+.mm-h2.bad { color: var(--alert); } .mm-h2.good { color: var(--money); }
+.mm-card { display: grid; gap: 8px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; padding-bottom: 14px; text-align: center; }
+.mm-card > img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: 30% 25%; display: block; }
+.mm-card > img.mm-face { aspect-ratio: 4 / 3; object-position: 50% 15%; }
+.mm-card > b { color: var(--ink); font-size: 17px; font-weight: 800; padding: 10px 14px 0; line-height: 1.25; }
+.mm-card > p { margin: 0; padding: 0 14px; font-size: 14px; line-height: 1.5; }
+.mm-icons { display: flex; justify-content: center; gap: 10px; padding: 14px 10px 0; }
+.mm-icons img { width: 28%; max-width: 110px; aspect-ratio: 1 / 1; object-fit: contain; }
+.mm-steps { margin: 0; padding: 0 14px 0 34px; text-align: left; display: grid; gap: 6px; color: var(--ink); font-size: 14px; }
+.mm-steps li.hot { font-weight: 700; color: var(--money); }
+.mm-steps em { font-style: normal; font-size: 11px; background: var(--money); color: #fff; padding: 1px 6px; border-radius: 999px; white-space: nowrap; }
+.mm-soft { background: var(--soft); border: 1px solid var(--line); border-radius: 12px; padding: 14px; text-align: center; color: #4b5563; font-size: 19px; font-weight: 700; line-height: 1.3; }
+.mm-green { background: #16a34a; color: #fff; border-radius: 12px; padding: 18px 14px; text-align: center; font-size: 22px; font-weight: 800; line-height: 1.2; text-wrap: balance; }
+.mm-lightgreen { background: var(--money-soft); border: 1px solid var(--money-line); border-radius: 12px; padding: 12px; text-align: center; color: var(--money); font-size: 17px; font-weight: 800; }
+.mm-red { background: #dc2626; color: #fff; border-radius: 12px; padding: 18px 14px; text-align: center; font-size: 24px; font-weight: 800; line-height: 1.2; margin-top: 28px !important; text-wrap: balance; }
+.mm-calm { margin: 0; text-align: center; color: var(--ink); font-size: 20px; font-weight: 800; line-height: 1.3; text-wrap: balance; }
+.mm-bh { background: #e8efff; border: 1px solid #c7d6fb; border-radius: 12px; padding: 12px; text-align: center; color: #1d4ed8; font-size: 18px; font-weight: 800; line-height: 1.25; }
+.mm-bonus { position: relative; display: grid; gap: 8px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; padding-bottom: 16px; text-align: center; margin-top: 8px !important; }
+.mm-bonus img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center top; display: block; }
+.mm-bonus b { color: var(--ink); font-size: 21px; font-weight: 800; padding: 12px 14px 0; line-height: 1.2; }
+.mm-bonus p { margin: 0; padding: 0 14px; font-size: 14.5px; line-height: 1.5; }
+.mm-val { color: var(--alert); font-size: 20px; font-weight: 800; }
+.mm-val s { color: var(--alert); }
+.mm-tag { position: absolute; top: 10px; left: 10px; font-style: normal; background: var(--money); color: #fff; font-size: 11px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; }
+.mm-lapis { margin: 28px 0 0 !important; text-align: center; color: var(--ink); font-size: 16px; font-weight: 800; }
+.mm-stack { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.mm-stack li { display: flex; justify-content: space-between; align-items: center; gap: 12px; border: 1.5px solid #f87171; border-radius: 12px; padding: 12px 14px; }
+.mm-stack b { color: var(--ink); font-size: 13.5px; line-height: 1.3; }
+.mm-stack span { flex: none; background: var(--soft); border-radius: 8px; padding: 6px 10px; color: var(--ink); font-weight: 800; font-size: 16px; }
+.mm-total { margin: 0; text-align: center; font-size: 40px; font-weight: 800; color: var(--alert); }
+.mm-total s { color: var(--alert); }
+.mm-porem { margin: 0; text-align: center; color: var(--ink); font-size: 18px; font-weight: 800; line-height: 1.25; text-wrap: balance; }
+.mm-pack { width: 100%; margin-top: 8px !important; }
+.mm-pack img { display: block; width: 100%; height: auto; }
+.mm-price { border: 2px solid #1d4ed8; border-radius: 14px; overflow: hidden; }
+.mm-price-h { background: #1d4ed8; color: #fff; text-align: center; font-weight: 800; font-size: 15px; padding: 8px; }
+.mm-price-b { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 14px; }
+.mm-price-b > b { color: var(--ink); font-size: 18px; line-height: 1.25; font-weight: 800; }
+.mm-price-v { display: grid; justify-items: center; text-align: center; background: var(--soft); border-radius: 10px; padding: 8px 10px; }
+.mm-price-v small { font-size: 12px; color: var(--muted); }
+.mm-price-v strong { color: var(--ink); font-size: 30px; line-height: 1.1; font-weight: 800; }
+.mm-pay { margin: 0; text-align: center; font-size: 13px; color: var(--muted); }
+.mm-x, .mm-ok { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.mm-x li, .mm-ok li { border-radius: 12px; padding: 12px 14px 12px 42px; position: relative; font-size: 15px; line-height: 1.4; color: var(--ink); }
+.mm-x li { background: var(--alert-soft); border: 1px solid var(--alert-line); }
+.mm-ok li { background: var(--money-soft); border: 1px solid var(--money-line); }
+.mm-x li::before { content: "✕"; position: absolute; left: 14px; top: 11px; color: var(--alert); font-weight: 800; font-size: 17px; }
+.mm-ok li::before { content: "✓"; position: absolute; left: 12px; top: 10px; width: 20px; height: 20px; border-radius: 5px; background: var(--money); color: #fff; font-size: 13px; font-weight: 800; display: grid; place-items: center; }
+@media (max-width: 360px) { .mm-price-b { grid-template-columns: 1fr; } }
+.mm-price-why { list-style: none; margin: 0; padding: 0 14px 10px; display: grid; gap: 6px; }
+.mm-price-why li { position: relative; padding-left: 22px; font-size: 13.5px; line-height: 1.4; color: var(--ink); }
+.mm-price-why li::before { content: "✓"; position: absolute; left: 0; top: 0; color: var(--money); font-weight: 800; }
+.mm-price-up { margin: 0; background: #fffbeb; border-top: 1px solid #fde68a; color: #92400e; font-size: 12.5px; font-weight: 700; text-align: center; padding: 8px 12px; }
+.mm-why { display: grid; gap: 8px; background: var(--navy); color: #dfe5f3; border-radius: 14px; padding: 16px; }
+.mm-why b { color: #fff; font-size: 20px; } .mm-why p { margin: 0; font-size: 14.5px; line-height: 1.55; } .mm-why span { justify-self: end; font-style: italic; font-weight: 700; color: #fff; }
+.mm-obj { border: 1px solid var(--alert-line); background: var(--alert-soft); border-radius: 12px; padding: 12px 14px; display: grid; gap: 4px; }
+.mm-obj b { color: var(--alert); font-size: 16px; } .mm-obj p { margin: 0; color: var(--ink); font-size: 14px; line-height: 1.45; }
+.ba-list { list-style: none; margin: 0; padding: 0; display: grid; align-content: center; gap: clamp(4px, 1dvh, 10px); min-width: 0; }
+.ba-list li { position: relative; padding-left: 22px; font-size: clamp(12px, 1.9dvh, 14.5px); line-height: 1.3; color: var(--ink); }
+.ba-list.x li::before { content: "✕"; position: absolute; left: 2px; top: 0; color: var(--alert); font-weight: 800; }
+.ba-list.ok li::before { content: "✓"; position: absolute; left: 0; top: 0; width: 16px; height: 16px; border-radius: 4px; background: var(--money); color: #fff; font-size: 11px; font-weight: 800; display: grid; place-items: center; }
+/* fim da fase */
+.vars { width: 100%; border-collapse: collapse; font-size: 13px; color: var(--ink); }
+.vars td { border-bottom: 1px solid var(--line); padding: 6px 4px; vertical-align: top; }
+.vars td:first-child { color: var(--muted); font-family: ui-monospace, Menlo, monospace; font-size: 12px; width: 38%; }
+.legal { font-size: 10.5px; color: #9ca3af; text-align: center; margin: 0; }
+
+@keyframes in { from { opacity: .001; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .screen { animation: none; } .bar > i { transition: none; } }
+
+/* ==========================================================================
+   QUIZ DAYANA · "Qual é a sua sentença?" · componentes extras (layout Home Sales)
+   ========================================================================== */
+.media.dt img { object-position: 62% 8%; }
+.media.dp img { object-position: 50% 12%; }
+.media.dc { background: #e9e7e4; }
+.media.dc img { object-position: 50% 9%; }
+.media.cn img { object-position: 50% 35%; }
+.media.bk { background: #f4f1ec; }
+.media.bk img { object-fit: contain; }
+.media.pr { background: #efeae2; }
+.media.pr img { object-fit: contain; }
+
+/* Parecer: a faixa do código (Travado / Instável / De pé) + o texto + a linha da resposta */
+.parecer { border-radius: 12px; padding: clamp(9px, 1.5dvh, 13px) 13px; border: 1px solid var(--line); background: #f9fafb; color: var(--ink); font-size: clamp(12.5px, 1.9dvh, 14px); line-height: 1.38; }
+.parecer-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+.parecer-top b { font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.fx { font-size: 10.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; }
+.fx.trav { background: var(--alert-soft); color: var(--alert); }
+.fx.inst { background: #fff7e6; color: #b45309; }
+.fx.pe { background: var(--money-soft); color: var(--money); }
+.parecer.trav { border-color: var(--alert-line); background: var(--alert-soft); }
+.parecer.inst { border-color: #fde3b0; background: #fffaf0; }
+.parecer.pe { border-color: var(--money-line); background: var(--money-soft); }
+.parecer p { margin: 0; }
+.parecer .linha { margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(0, 0, 0, .08); font-weight: 600; }
+
+/* Números do concurso: 29 vagas / 17 posses */
+.nums { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.nums div { border: 1px solid var(--line); border-radius: 10px; padding: clamp(6px, 1.2dvh, 10px) 8px; text-align: center; }
+.nums b { display: block; color: var(--ink); font-size: clamp(22px, 4dvh, 30px); font-weight: 800; line-height: 1; }
+.nums span { font-size: 11.5px; }
+.nums div.alerta b { color: var(--alert); }
+
+/* Cadeados da decisão */
+.locks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; }
+.locks li { display: flex; justify-content: space-between; align-items: center; gap: 6px; min-width: 0; border: 1px solid var(--line); background: #f9fafb; border-radius: 8px; padding: clamp(6px, 1.1dvh, 9px) 9px; font-size: 11px; font-weight: 700; letter-spacing: .03em; color: var(--ink); }
+.locks li span { min-width: 0; overflow-wrap: anywhere; }
+
+/* Fundamentação: 7 barras com faixa */
+.fund { display: grid; gap: clamp(4px, .9dvh, 8px); }
+.fund .fl { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; align-items: center; font-size: 12px; color: var(--ink); font-weight: 700; }
+.fund .fl.me { color: var(--alert); }
+.fund .ft { grid-column: 1 / -1; height: 7px; background: var(--line); border-radius: 99px; overflow: hidden; }
+.fund .ft i { display: block; height: 100%; border-radius: 99px; }
+.fund .ft i.trav { background: var(--alert); }
+.fund .ft i.inst { background: #f59e0b; }
+.fund .ft i.pe { background: var(--money); }
+.dispo { border: 2px solid var(--ink); border-radius: 12px; padding: clamp(8px, 1.4dvh, 12px) 12px; color: var(--ink); font-size: clamp(12.5px, 1.9dvh, 14px); }
+.dispo b { display: block; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+.dispo strong { font-size: clamp(15px, 2.4dvh, 18px); }
+
+/* Relatório com emoji no lugar da miniatura */
+.th.e { display: grid; place-items: center; font-size: clamp(20px, 4dvh, 34px); background: var(--navy-soft); }
+
+/* Antes da sentença, a foto da pessoa fica em preto e branco */
+.who.bad img { filter: grayscale(1) brightness(.92); }
+
+/* Pacote de capas na oferta */
+.packrow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; align-items: end; }
+.packrow img { width: 100%; border-radius: 6px; box-shadow: 0 6px 14px -8px rgba(0, 0, 0, .45); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 8px; }
+.chips span { font-size: 11px; font-weight: 700; letter-spacing: .04em; padding: 4px 8px; border-radius: 999px; background: var(--soft); color: var(--ink); }
+.chips span.me { background: var(--alert); color: #fff; }
+.depos2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.depos2 img { width: 100%; border-radius: 10px; border: 1px solid var(--line); }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6dc95"/><stop offset="1" stop-color="#d4a24c"/></linearGradient><linearGradient id="icobg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b2c52"/><stop offset="1" stop-color="#0b1b2e"/></linearGradient></defs></svg>
+<div class="app">
+  <div class="top">
+    <button class="back" id="back" type="button" aria-label="Voltar">&#8592;</button>
+    <div class="bar" aria-hidden="true"><i id="prog"></i></div>
+    <span></span>
+  </div>
+  <main id="app" aria-live="polite"></main>
+  <div class="foot" id="foot" hidden><button class="cta" id="cta" type="button">Continuar</button></div>
+</div>
+
+<script>
+/* ==========================================================================
+   QUAL É A SUA SENTENÇA? · Dra. Dayana Martins · layout Home Sales
+   Conteúdo: quiz-2-sentenca/01-perguntas-e-insercoes-v2.md
+   Produto, bônus e preço: os mesmos do quiz 1 (Os 7 Códigos da Aprovação, R$47).
+   Regras: nada de garantia de aprovação nem prazo; sem o "5º lugar"; nenhuma estatística sem fonte.
+   ========================================================================== */
+const A = {};
+const hist = [];
+const sexo = () => A.genero === "mulher" ? "m" : "h";
+const g = (m, f) => A.genero === "mulher" ? f : m;
+const temFe = () => A.fe === "sim" || A.fe === "fe";
+const jaEstuda = () => A.momento === "estudo" || A.momento === "parei";
+
+/* ---------- os 7 códigos ---------- */
+const COD = {
+  pratica:     { nome: "PRÁTICA", aula: 1, frase: "Não basta saber. É preciso saber fazer.", acao: "Ao terminar cada assunto, faça questões dele no mesmo dia e marque na agenda as próximas revisões." },
+  seposiciona: { nome: "POSICIONAMENTO", aula: 2, frase: "Coloque-se na posição em que aquilo que você deseja pode acontecer.", acao: "Escreva o cargo que você realmente quer, sem diminuir. E se inscreva na próxima prova compatível, nem que seja como treino." },
+  persevera:   { nome: "PERSEVERANÇA", aula: 3, frase: "Não pare durante a provação. A aprovação pode estar depois dela.", acao: "Decida hoje o que você faz no dia seguinte a uma prova ruim ou a uma semana perdida: qual assunto e qual hora." },
+  naoduvida:   { nome: "NÃO DUVIDAR", aula: 4, frase: "Quem decidiu o destino não muda a rota a cada vento.", acao: "Escolha um concurso-alvo e um material-base. Por 30 dias, nenhuma troca." },
+  gesta:       { nome: "GESTAR", aula: 5, frase: "Não aborte o que ainda está sendo formado.", acao: "Troque “quanto falta?” por “o que eu marquei hoje?”. Risque no edital cada assunto estudado e revisado." },
+  criaraiz:    { nome: "CRIAR RAIZ", aula: 6, frase: "A profundidade que ninguém vê sustenta a altura que todos verão.", acao: "Nos próximos 7 dias, deixe o celular em outro cômodo durante a primeira hora de estudo." },
+  semeia:      { nome: "SEMEAR", aula: 7, frase: "Você não controla o dia da colheita, mas controla o que planta todos os dias.", acao: "Defina a sua semente mínima: o mínimo que você estuda até no pior dia. Nos próximos 7 dias, não deixe que ela falhe." }
+};
+const ORDEM = ["pratica", "seposiciona", "persevera", "naoduvida", "gesta", "criaraiz", "semeia"];
+const DESEMPATE = ["persevera", "naoduvida", "semeia", "pratica", "seposiciona", "gesta", "criaraiz"];
+
+/* pontos de 0 a 3 por resposta; null = neutra */
+const PTS = {
+  rotina:   { cod: "pratica", aulas: 0, leitura: 1, questoes: 3, revisao: 3 },
+  assunto:  { cod: "pratica", segue: 0, lembra: 1, questoes: 2, agendada: 3 },
+  voltas:   { cod: "pratica", nenhuma: 0, uma: 1, duas: 2, mais: 3 },
+  cargo:    { cod: "seposiciona", sonho: 3, indeciso: 1, possivel: 0, maior: 0 },
+  inscreve: { cod: "seposiciona", nunca: 3, poucas: 2, varias: 1, semedital: null },
+  genio:    { cod: "seposiciona", total: 0, parte: 1, incerto: 2, discordo: 3 },
+  voltou:   { cod: "persevera", dias: 3, semanas: 2, meses: 1, nao: 0 },
+  desistir: { cod: "persevera", nunca: 3, passou: 2, frequente: 1, agora: 0 },
+  caminho:  { cod: "persevera", total: 0, parte: 1, incerto: 2, discordo: 3 },
+  edital:   { cod: "naoduvida", sigo: 3, tentado: 2, muda: 1, ambos: 0 },
+  falta:    { cod: "gesta", tranquilo: 3, ansioso: 2, nunca: 1, travo: 0 },
+  resultado:{ cod: "gesta", vejo: 3, asvezes: 2, quase: 1, sempre: 0 },
+  celular:  { cod: "criaraiz", r15: 0, r30: 1, hora: 2, longe: 3 },
+  naos:     { cod: "criaraiz", paz: 3, so: 2, cedo: 1, naoconsigo: 0 },
+  dias:     { cod: "semeia", d10: 0, d20: 1, d25: 2, todos: 3 },
+  perdeu:   { cod: "semeia", retomo: 3, compenso: 2, culpa: 1, semana: 0 }
+};
+const ROTULO = {
+  rotina: ["Na sua semana", { aulas: "Assistir aulas", leitura: "Ler material e lei seca" }],
+  assunto: ["Quando termina um assunto", { segue: "Sigo e não volto mais", lembra: "Volto quando lembro", questoes: "Faço questões no mesmo dia" }],
+  voltas: ["Voltas no edital", { nenhuma: "Ainda não terminei a primeira", uma: "Uma", duas: "Duas ou três" }],
+  cargo: ["Sobre o cargo", { indeciso: "Ainda não decidi", possivel: "Escolhi um mais “possível”", maior: "Quero um maior, mas não digo" }],
+  inscreve: ["Sobre se inscrever", { poucas: "Já deixei uma ou duas vezes", varias: "Já deixei várias vezes" }],
+  genio: ["“Concurso de alto nível é para gênio”", { total: "Concordo totalmente", parte: "Concordo em parte", incerto: "Não tenho certeza" }],
+  voltou: ["Depois de uma prova ruim", { semanas: "Algumas semanas", meses: "Alguns meses", nao: "Ainda não voltei" }],
+  desistir: ["Sobre desistir", { passou: "Já pensei, mas passou", frequente: "Penso com frequência", agora: "Estou pensando agora" }],
+  caminho: ["“Talvez não seja o meu caminho”", { total: "Concordo totalmente", parte: "Concordo em parte", incerto: "Não tenho certeza" }],
+  edital: ["Quando sai outro edital", { tentado: "Fico tentado(a), mas sigo", muda: "Mudo o foco por um tempo", ambos: "Estudo para ele também" }],
+  falta: ["Ao olhar o que falta", { ansioso: "Ansiedade, mas sigo", nunca: "Que nunca vou terminar", travo: "Travo e não começo" }],
+  resultado: ["Sobre ver resultado", { asvezes: "Às vezes", quase: "Quase sempre", sempre: "Sempre. Não saio do lugar" }],
+  celular: ["Até pegar o celular", { r15: "Menos de 15 minutos", r30: "De 15 a 30 minutos", hora: "Uma hora ou mais" }],
+  naos: ["Sobre os “nãos”", { so: "Digo não, mas me sinto só", cedo: "Às vezes cedo", naoconsigo: "Não consigo abrir mão" }],
+  dias: ["Nos últimos 30 dias", { d10: "Menos de 10 dias", d20: "De 10 a 20 dias", d25: "De 20 a 25 dias" }],
+  perdeu: ["Quando perde um dia", { compenso: "Compenso e me sobrecarrego", culpa: "Bate a culpa e perco mais", semana: "A semana inteira vai embora" }]
+};
+function trocas() { return (A.trocas || []).filter(x => x !== "nada"); }
+function nota(cod) {
+  let tot = 0, max = 0;
+  Object.keys(PTS).forEach(k => { const t = PTS[k]; if (t.cod !== cod || A[k] == null) return; const p = t[A[k]]; if (p == null) return; tot += p; max += 3; });
+  if (cod === "naoduvida" && A.trocas) { const n = trocas().length; tot += n === 0 ? 3 : n === 1 ? 2 : n === 2 ? 1 : 0; max += 3; }
+  return max ? Math.round(tot / max * 100) : 50;
+}
+const faixa = v => v < 40 ? ["Travado", "trav"] : v < 70 ? ["Instável", "inst"] : ["De pé", "pe"];
+function travado() {
+  const sc = {}; ORDEM.forEach(c => sc[c] = nota(c));
+  if (ORDEM.every(c => sc[c] >= 70)) return "persevera";
+  const min = Math.min(...ORDEM.map(c => sc[c]));
+  return DESEMPATE.find(c => sc[c] === min);
+}
+function motivos(cod, n) {
+  const out = [];
+  Object.keys(PTS).forEach(k => {
+    const t = PTS[k]; if (t.cod !== cod || A[k] == null) return; const p = t[A[k]]; if (p == null || p >= 3) return;
+    const r = ROTULO[k]; if (r && r[1][A[k]]) out.push([p, `${r[0]}: “${r[1][A[k]]}”`]);
+  });
+  if (cod === "naoduvida" && trocas().length >= 2) out.push([0, `Trocou de ${unir(trocas().map(x => TROCA_TXT[x]))} em 12 meses`]);
+  return out.sort((a, b) => a[0] - b[0]).slice(0, n || 3).map(x => x[1]);
+}
+const TROCA_TXT = { cursinho: "cursinho", material: "material", cronograma: "cronograma", concurso: "concurso-alvo" };
+function unir(l) { return l.length <= 1 ? l.join("") : l.slice(0, -1).join(", ") + " e " + l[l.length - 1]; }
+
+/* ---------- textos de perfil ---------- */
+const CARREIRA = { mag: "a magistratura", mp: "o Ministério Público", del: "a carreira de Delegado", trib: "os tribunais", oab: "a OAB ou outro concurso" };
+const HORAS = { h2: "menos de 2 horas", h4: "de 2 a 4 horas", h6: "de 4 a 6 horas", h6p: "mais de 6 horas" };
+const TEMPO = { a1: "menos de 1 ano", a3: "mais de 1 ano", a5: "mais de 3 anos", a5p: "mais de 5 anos" };
+const TRAB = { integral: "trabalha em tempo integral", meio: "trabalha meio período", so: "se dedica só aos estudos" };
+const FRASES = { loteria: "“Concurso é loteria”", gente: "“Isso não é para gente como a gente”", idade: "“Você já passou da idade”", parar: "“Só passa quem pode parar tudo”", passa: "“Estuda tanto e não passa?”" };
+
+/* ---------- componentes ---------- */
+function esc(v) { return String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+function ph(tag, title, note, cls) { return `<div class="ph ${cls || ""}"><span class="tag">INSERÇÃO · ${tag}</span><strong>${title}</strong><span>${note}</span></div>`; }
+function pic(key, val, label, src) {
+  return `<button type="button" class="pic${A[key] === val ? " on" : ""}" data-k="${key}" data-v="${val}"><span class="ph-img"><img src="${src}" alt=""></span><span class="lbl">${label}</span></button>`;
+}
+function opt(key, val, em, label, small) {
+  return `<button type="button" class="opt${A[key] === val ? " on" : ""}" data-k="${key}" data-v="${val}"><span class="em">${em}</span><span class="tx">${label}${small ? `<small data-drop="1">${small}</small>` : ""}</span></button>`;
+}
+function chk(key, val, em, label) {
+  const on = (A[key] || []).includes(val);
+  return `<button type="button" class="opt${on ? " on" : ""}" data-mk="${key}" data-multi="${val}" aria-pressed="${on}"><span class="em">${em}</span><span class="tx">${label}</span><span class="box">${on ? "✓" : ""}</span></button>`;
+}
+function parecer(cod, txt, linha) {
+  const f = faixa(nota(cod));
+  return `<div class="parecer ${f[1]}"><div class="parecer-top"><b>⚖️ Parecer</b><span class="fx ${f[1]}">${f[0]}</span></div><p>${txt[f[1]]}</p>${linha ? `<p class="linha">${linha}</p>` : ""}</div>`;
+}
+function verso(txt, ref, drop) {
+  if (!temFe()) return "";
+  return `<div class="quote"${drop ? ` data-drop="${drop}"` : ""}>“${txt}”<cite>${ref}</cite></div>`;
+}
+function primeira(lista) { const x = lista.find(l => l[0]); return x ? x[1] : ""; }
+function personImg() { const n = { a24: 1, a34: 2, a44: 3, a45: 4 }[A.idade] || 2; return `img/idade-${sexo()}-${n}.jpg`; }
+function who(kind, cap) { return `<div class="who ${kind}"><img src="${personImg()}" alt=""><span class="cap">${cap}</span></div>`; }
+function bar(label, pct, kind) { return `<div class="br"><span>${label}</span><div class="br-t"><i class="${kind}" style="width:${pct}%"></i></div></div>`; }
+function loader(steps) {
+  let p = 0;
+  const tick = setInterval(() => {
+    p = Math.min(100, p + 4);
+    const b = document.getElementById("ld-bar");
+    if (!b) return clearInterval(tick);
+    b.style.width = p + "%";
+    document.getElementById("ld-pct").textContent = p + "%";
+    document.getElementById("ld-txt").textContent = steps[Math.min(steps.length - 1, Math.floor(p / (100 / steps.length + 0.01)))];
+    if (p >= 100) { clearInterval(tick); setTimeout(next, 200); }
+  }, 80);
+}
+function toast(msg) {
+  let t = document.getElementById("toast");
+  if (!t) { t = document.createElement("div"); t.id = "toast"; t.setAttribute("role", "status"); document.body.appendChild(t); }
+  t.textContent = msg; t.classList.add("on");
+  clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("on"), 2600);
+}
+const TBD = `<span class="tbd">a definir</span>`;
+
+/* ---------- bônus (os mesmos do quiz 1; valores de referência definidos pela Mayara) ---------- */
+const BONUS = [
+  { id: "devocional", nome: "Devocional do Concurseiro: 30 dias", sub: "Um versículo e um estudo por dia", txt: "Para começar cada dia de estudo com Deus. Os 30 dias passam pelos 7 códigos da aprovação.", img: "img/bonus-devocional.jpg", valor: 197 },
+  { id: "reprovacao", nome: "Protocolo da Reprovação", sub: "As primeiras 24 horas depois do “não”", txt: "Não tomar decisão emocional, analisar o resultado, separar incapacidade de falta de preparação e montar o plano de recuperação.", img: "img/bonus-reprovacao.jpg", valor: 97 },
+  { id: "antitrava", nome: "Protocolo Antitrava", sub: "Para ansiedade, nervosismo, branco e pressão", txt: "Exercícios para fazer nos dias antes da prova e chegar preparad" + "{o|a} para acessar tudo o que estudou.", img: "img/bonus-antitrava.jpg", valor: 97 },
+  { id: "livro", nome: "Livro digital Minha Última Sentença", sub: "A minha história, da escola pública até a toga", txt: "Vendido separadamente por R$39,90.", img: "img/livro-capa.jpg", valor: 39.9 },
+  { id: "diario", nome: "Diário do Concurseiro", sub: "Para enxergar a sua evolução", txt: "Horas estudadas, questões, percentual de acerto, dificuldades e o que precisa revisar. Para imprimir ou usar na tela.", img: "img/bonus-diario.jpg", valor: 197 }
+];
+const TRAVA_BONUS = { metodo: "diario", alguem: "livro", constancia: "diario", fe: "devocional", acreditar: "antitrava" };
+const brl = v => "R$" + (Number.isInteger(v) ? v.toLocaleString("pt-BR") : v.toFixed(2).replace(".", ","));
+
+/* data-drop="N": se a tela não couber na altura do celular, some primeiro o maior N */
+const S = [
+  /* ================= FASE 1 · ABERTURA DO PROCESSO ================= */
+  { render: () => `
+      <div class="banner" data-drop="2">Responda e receba a sua sentença</div>
+      <h1>Você estuda para passar. Mas sua preparação <span class="hl-alert">conta outra história</span>?</h1>
+      <p class="sub" data-drop="3">Descubra a sua sentença: o que mudar na sua preparação nos próximos 7 dias.</p>
+      <p class="hint" data-drop="4">Com Dayana Martins, ex-juíza aprovada aos 23 anos.</p>
+      <div class="go" data-drop="1">↓ RESPONDA PARA COMEÇAR ↓</div>
+      <h2>Você é homem ou mulher?</h2>
+      <div class="pics two fill">
+        ${pic("genero", "homem", "Homem", "img/genero-homem.jpg")}
+        ${pic("genero", "mulher", "Mulher", "img/genero-mulher.jpg")}
+      </div>` },
+
+  { render: () => `
+      <h2>Qual a sua idade?</h2>
+      <p class="hint" data-drop="1">Isso ajuda a montar a sentença no seu momento</p>
+      <div class="pics four fill">
+        ${pic("idade", "a24", "Até 24", `img/idade-${sexo()}-1.jpg`)}
+        ${pic("idade", "a34", "25–34", `img/idade-${sexo()}-2.jpg`)}
+        ${pic("idade", "a44", "35–44", `img/idade-${sexo()}-3.jpg`)}
+        ${pic("idade", "a45", "45+", `img/idade-${sexo()}-4.jpg`)}
+      </div>` },
+
+  { center: true, render: () => `
+      <h2>Para qual carreira você está se preparando?</h2>
+      <div class="opts">
+        ${opt("carreira", "mag", "⚖️", "Magistratura")}
+        ${opt("carreira", "mp", "🏛️", "Ministério Público")}
+        ${opt("carreira", "del", "🛡️", "Delegado de Polícia")}
+        ${opt("carreira", "trib", "📂", "Tribunais (analista ou técnico)")}
+        ${opt("carreira", "oab", "🎯", "OAB ou outro concurso")}
+      </div>` },
+
+  { center: true, render: () => `
+      <h2>Em que momento você está?</h2>
+      <div class="opts">
+        ${opt("momento", "faculdade", "🎓", "Ainda estou na faculdade")}
+        ${opt("momento", "formei", "🚪", "Me formei e vou começar")}
+        ${opt("momento", "estudo", "📚", "Já estudo para concurso")}
+        ${opt("momento", "parei", "🔄", "Parei e quero voltar")}
+      </div>` },
+
+  { center: true, skip: () => !jaEstuda(), render: () => `
+      <h2>${A.momento === "parei" ? "Quanto tempo você estudou antes de parar?" : "Há quanto tempo você estuda?"}</h2>
+      <div class="opts">
+        ${opt("tempo", "a1", "🌱", "Menos de 1 ano")}
+        ${opt("tempo", "a3", "📘", "De 1 a 3 anos")}
+        ${opt("tempo", "a5", "⏳", "De 3 a 5 anos")}
+        ${opt("tempo", "a5p", "🏔️", "Mais de 5 anos")}
+      </div>` },
+
+  { center: true, render: () => `
+      <h2>Hoje você trabalha?</h2>
+      <div class="opts">
+        ${opt("trabalho", "integral", "💼", "Sim, em tempo integral")}
+        ${opt("trabalho", "meio", "🕐", "Sim, meio período")}
+        ${opt("trabalho", "so", "📖", A.momento === "faculdade" ? "Não, só faculdade e estudo" : "Não, só estudo")}
+      </div>` },
+
+  { center: true, render: () => `
+      <h2>Quantas provas para esse cargo você já fez?</h2>
+      <div class="opts">
+        ${opt("provas", "nenhuma", "🚪", "Nenhuma ainda")}
+        ${opt("provas", "p2", "✏️", "1 ou 2")}
+        ${opt("provas", "p5", "📝", "De 3 a 5")}
+        ${opt("provas", "p5p", "🗂️", "Mais de 5")}
+      </div>` },
+
+  { center: true, render: () => `
+      <h2>Sendo realista: quantas horas por dia você consegue estudar?</h2>
+      ${A.momento === "parei" ? `<p class="hint" data-drop="1">Pense em quanto conseguiria hoje</p>` : ""}
+      <div class="opts">
+        ${opt("horas", "h2", "⏱️", "Menos de 2 horas")}
+        ${opt("horas", "h4", "🕑", "De 2 a 4 horas")}
+        ${opt("horas", "h6", "🕓", "De 4 a 6 horas")}
+        ${opt("horas", "h6p", "🕕", "Mais de 6 horas")}
+      </div>` },
+
+  { center: true, render: () => `
+      <h2>Você é ${g("cristão", "cristã")}?</h2>
+      <p class="hint" data-drop="1">Não existe resposta certa. Só muda a forma como eu te mostro a sentença</p>
+      <div class="opts">
+        ${opt("fe", "sim", "🙏", "Sim")}
+        ${opt("fe", "fe", "🕊️", "Não, mas tenho fé em Deus")}
+        ${opt("fe", "nao", "🤝", g("Não sou cristão", "Não sou cristã"))}
+      </div>` },
+
+  { cta: "ABRIR OS AUTOS", render: () => {
+      const head = A.momento === "faculdade" ? `Processo aberto antes da primeira prova. <span class="hl-money">É a melhor hora para construir certo.</span>`
+        : A.momento === "formei" ? `Processo aberto. <span class="hl-money">Você não precisa desaprender nada.</span>`
+        : A.momento === "parei" ? `Um processo parado <span class="hl-money">não é um processo encerrado.</span>`
+        : A.tempo === "a5p" ? `Mais de 5 anos de processo. <span class="hl-alert">Eu sei o peso disso.</span>`
+        : A.tempo === "a1" ? `Você está no começo. <span class="hl-money">É agora que o método se instala.</span>`
+        : `Você estuda há ${TEMPO[A.tempo] || "um tempo"}. <span class="hl-alert">Não é falta de esforço.</span>`;
+      const linha = primeira([
+        [A.carreira === "oab", "Os 7 códigos valem para qualquer prova. Os exemplos que eu vou te dar vêm da magistratura, o caminho que eu conheço por dentro."],
+        [A.momento === "parei", "Você parou, mas está aqui. A sua sentença vai mostrar por onde recomeçar sem voltar à estaca zero."],
+        [A.trabalho === "integral" || A.horas === "h2", `Você ${TRAB[A.trabalho] || "trabalha"} e tem <b>${HORAS[A.horas] || "pouco tempo"}</b> por dia. A sua sentença leva isso em conta: nada de cronograma impossível.`],
+        [A.trabalho === "so" && (A.horas === "h6" || A.horas === "h6p"), "Você tem tempo. Então a pergunta não é quanto você estuda. <b>É o que acontece com esse tempo.</b>"],
+        [true, `Você tem <b>${HORAS[A.horas] || "algumas horas"}</b> por dia. O que muda o resultado é o que você faz com elas.`]
+      ]);
+      return `
+      <span class="badge" data-drop="3">Abertura dos autos</span>
+      <h2>${head}</h2>
+      <div class="media dt fill"><img src="img/dayana-toga.jpg" alt="Dayana Martins de toga"></div>
+      <p class="lead">Fui aprovada juíza aos 23 anos, com menos de um ano de preparação. <b>Agora vou examinar a sua preparação.</b></p>
+      <div class="nums" data-drop="2"><div><b>29</b><span>vagas no meu concurso</span></div><div class="alerta"><b>17</b><span>tomaram posse</span></div></div>
+      <div class="echo">${linha}</div>`; } },
+
+  /* ================= FASE 2 · AS 7 PROVAS ================= */
+  { id: "fase2", center: true, render: () => `
+      <span class="badge" data-drop="1">Prova 1 de 7 · Prática</span>
+      <h2>Numa semana normal, o que mais ocupa o seu estudo?</h2>
+      <div class="opts">
+        ${opt("rotina", "aulas", "🎥", "Assistir aulas")}
+        ${opt("rotina", "leitura", "📖", "Ler material e lei seca")}
+        ${opt("rotina", "questoes", "✍️", "Resolver questões")}
+        ${opt("rotina", "revisao", "🔁", "Revisar o que já estudei")}
+      </div>` },
+  { center: true, render: () => `
+      <h2>Terminou um assunto. E depois?</h2>
+      <div class="opts">
+        ${opt("assunto", "segue", "➡️", "Sigo e não volto mais")}
+        ${opt("assunto", "lembra", "🤔", "Volto quando lembro")}
+        ${opt("assunto", "questoes", "✍️", "Faço questões no mesmo dia")}
+        ${opt("assunto", "agendada", "📅", "A revisão já fica agendada")}
+      </div>` },
+  { center: true, render: () => `
+      <h2>Quantas voltas completas você já deu no edital?</h2>
+      <p class="hint" data-drop="1">Estudando e revisando tudo</p>
+      <div class="opts">
+        ${opt("voltas", "nenhuma", "🚧", "Ainda não terminei a primeira")}
+        ${opt("voltas", "uma", "1️⃣", "Uma")}
+        ${opt("voltas", "duas", "🔂", "Duas ou três")}
+        ${opt("voltas", "mais", "🏆", "Mais de três")}
+      </div>` },
+  { cta: "PRÓXIMA PROVA", render: () => `
+      <span class="badge" data-drop="3">Prova 1 de 7 · Prática</span>
+      <h2>O aprovado não apenas estuda. <span class="hl-money">Ele pratica.</span></h2>
+      <div class="media cn fill"><img src="img/cena-pratica.jpg" alt="Pessoa estudando à mesa"></div>
+      ${verso("Sejam praticantes da palavra, e não apenas ouvintes.", "Tiago 1:22", 2)}
+      <p class="lead" data-drop="4">Em uns 7 meses, revisei o edital <b>pelo menos 6 vezes</b>, antes de esquecer: o <b>Método 48, 7 e 30</b>.</p>
+      ${parecer("pratica", {
+        trav: "Muito conteúdo entrando e pouco treino saindo. Na prova, o conteúdo não aparece.",
+        inst: "Você já pratica, mas sem calendário. Parte do que estuda escapa antes da revisão.",
+        pe: "Prática de pé: questões e revisão já fazem parte da sua rotina." },
+        primeira([
+          [A.assunto === "segue", "Você termina um assunto e não volta nele. É exatamente aí que o estudo escapa."],
+          [A.horas === "h2" || (A.provas && A.provas !== "nenhuma"), "Quando o tempo era curto, eu pegava as últimas 10 provas e concentrava no que mais se repetia. Praticar também é escolher o que treinar."],
+          [A.voltas === "nenhuma", "Comece a revisar desde já: é isso que faz a primeira volta valer."],
+          [A.voltas === "mais", "Mais de três voltas no edital. Agora é manter o ritmo até a prova."]
+        ]))}` },
+
+  { center: true, render: () => `
+      <span class="badge" data-drop="1">Prova 2 de 7 · Posicionamento</span>
+      <h2>O cargo que você estuda é o que você <span class="hl-money">realmente quer</span>?</h2>
+      <div class="opts">
+        ${opt("cargo", "sonho", "⭐", "Sim, é o meu sonho")}
+        ${opt("cargo", "indeciso", "🤷", "Ainda não decidi")}
+        ${opt("cargo", "possivel", "🪜", "Escolhi um mais “possível”")}
+        ${opt("cargo", "maior", "🙊", "Quero um maior, mas não digo")}
+      </div>` },
+  { center: true, render: () => `
+      <h2>Você já deixou de fazer uma prova por achar que <span class="hl-alert">não era a hora</span>?</h2>
+      <div class="opts">
+        ${opt("inscreve", "nunca", "🙋", "Nunca: eu me inscrevo e vou")}
+        ${opt("inscreve", "poucas", "😬", "Uma ou duas vezes")}
+        ${opt("inscreve", "varias", "😓", "Várias vezes")}
+        ${opt("inscreve", "semedital", "📭", "Ainda não saiu edital")}
+      </div>` },
+  { center: true, render: () => `
+      <h2>O quanto você concorda com esta frase?</h2>
+      <div class="quote" style="text-align:center">“Concurso de alto nível é para quem é gênio.”</div>
+      <div class="opts">
+        ${opt("genio", "total", "✅", "Concordo totalmente")}
+        ${opt("genio", "parte", "🤏", "Concordo em parte")}
+        ${opt("genio", "incerto", "🤔", "Não tenho certeza")}
+        ${opt("genio", "discordo", "❌", "Discordo")}
+      </div>` },
+  { cta: "PRÓXIMA PROVA", render: () => `
+      <span class="badge" data-drop="3">Prova 2 de 7 · Posicionamento</span>
+      <h2>Quem chuta pode errar. <span class="hl-money">Mas só quem se posiciona faz o gol.</span></h2>
+      <div class="media cn fill"><img src="img/cena-atacante.jpg" alt="Jogador em posição de ataque"></div>
+      <p class="lead" data-drop="2">Meu filho Lorenzo escolheu jogar de atacante. E na prova oral, eu travava de medo. Passei com uma frase: <b>tá com medo? Vai com medo mesmo.</b></p>
+      ${parecer("seposiciona", {
+        trav: "A sua capacidade não é o problema. O problema está em onde você se coloca.",
+        inst: "Você já se posiciona, mas o medo ainda escolhe algumas provas por você.",
+        pe: "Posicionamento de pé: você se inscreve, faz a prova e enfrenta a banca." },
+        primeira([
+          [A.cargo === "possivel" || A.cargo === "maior", "Analista e técnico são cargos excelentes. A pergunta é uma só: você escolheu por chamado ou por medo?"],
+          [A.genio === "total", "Você concorda que é para gênio. Eu estudei em escola pública no interior de Goiás."]
+        ]))}` },
+
+  { center: true, skip: () => !A.provas || A.provas === "nenhuma", render: () => `
+      <span class="badge" data-drop="1">Prova 3 de 7 · Perseverança</span>
+      <h2>Depois de uma prova que não deu certo, quanto tempo levou para voltar?</h2>
+      <div class="opts">
+        ${opt("voltou", "dias", "🚀", "Voltei em poucos dias")}
+        ${opt("voltou", "semanas", "🗓️", "Algumas semanas")}
+        ${opt("voltou", "meses", "🌧️", "Alguns meses")}
+        ${opt("voltou", "nao", "🥀", "Ainda não voltei de verdade")}
+      </div>` },
+  { center: true, render: () => `
+      <h2>Você já pensou em <span class="hl-alert">desistir</span>?</h2>
+      <div class="opts">
+        ${opt("desistir", "nunca", "🦁", "Nunca pensei")}
+        ${opt("desistir", "passou", "🌤️", "Já pensei, mas passou")}
+        ${opt("desistir", "frequente", "🌧️", "Penso com frequência")}
+        ${opt("desistir", "agora", "⛈️", "Estou pensando agora")}
+      </div>` },
+  { center: true, render: () => `
+      <h2>O quanto você concorda com esta frase?</h2>
+      <div class="quote" style="text-align:center">“Se eu ainda não passei, talvez não seja o meu caminho.”</div>
+      <div class="opts">
+        ${opt("caminho", "total", "✅", "Concordo totalmente")}
+        ${opt("caminho", "parte", "🤏", "Concordo em parte")}
+        ${opt("caminho", "incerto", "🤔", "Não tenho certeza")}
+        ${opt("caminho", "discordo", "❌", "Discordo")}
+      </div>` },
+  { cta: "PRÓXIMA PROVA", render: () => `
+      <span class="badge" data-drop="3">Prova 3 de 7 · Perseverança</span>
+      <h2>O aprovado <span class="hl-money">permanece.</span></h2>
+      <div class="media cn fill"><img src="img/cena-montanha.jpg" alt="Pessoa subindo uma montanha"></div>
+      ${verso("Bem-aventurado o homem que persevera na provação, porque, depois de aprovado, receberá a coroa da vida.", "Tiago 1:12", 2)}
+      <p class="lead" data-drop="4">Fui reprovada no vestibular da PUC e, 30 dias depois, passei em 12º na UFG. Para delegado, fiquei de fora por 1 ponto.</p>
+      ${parecer("persevera", {
+        trav: "A provação está pesando mais do que o propósito. Cada prova ruim reabre o “será que é pra mim?”.",
+        inst: "Você volta, mas demora. E cada semana parada custa mais do que parece.",
+        pe: "Perseverança de pé: você já caiu e voltou." },
+        primeira([
+          [A.desistir === "agora", "Se você está pensando em desistir agora, eu te peço uma coisa: termine estes autos. Depois você decide."],
+          [A.voltou === "nao", "A sua sentença vai trazer o que fazer no dia seguinte a uma prova ruim."]
+        ]))}` },
+
+  { center: true, multi: "trocas", cta: "CONTINUAR", render: () => `
+      <span class="badge" data-drop="1">Prova 4 de 7 · Não duvidar</span>
+      <h2>Nos últimos 12 meses, você trocou de:</h2>
+      <p class="hint" data-drop="2">Marque todas que se aplicam</p>
+      <div class="opts">
+        ${chk("trocas", "cursinho", "🏫", "Cursinho")}
+        ${chk("trocas", "material", "📚", "Material")}
+        ${chk("trocas", "cronograma", "🗓️", "Cronograma")}
+        ${chk("trocas", "concurso", "🎯", "Concurso-alvo")}
+        ${chk("trocas", "nada", "✅", "Não troquei nada")}
+      </div>` },
+  { center: true, render: () => `
+      <h2>Saiu um edital diferente do seu. <span class="hl-alert">O que você faz?</span></h2>
+      <div class="opts">
+        ${opt("edital", "sigo", "🧭", "Sigo no meu. No máximo, treino")}
+        ${opt("edital", "tentado", "😌", g("Fico tentado, mas sigo", "Fico tentada, mas sigo"))}
+        ${opt("edital", "muda", "🔄", "Mudo o foco por um tempo")}
+        ${opt("edital", "ambos", "🤹", "Estudo para ele também")}
+      </div>` },
+  { cta: "PRÓXIMA PROVA", render: () => `
+      <span class="badge" data-drop="3">Prova 4 de 7 · Não duvidar</span>
+      <h2>Quem decidiu o destino <span class="hl-money">não muda a rota a cada vento.</span></h2>
+      <div class="media cn fill"><img src="img/cena-rota.jpg" alt="Bússola na mão"></div>
+      ${verso("Aquele que duvida é semelhante à onda do mar, levada e agitada pelo vento.", "Tiago 1:6", 2)}
+      <p class="lead" data-drop="4">Para a aluna que quer trocar de material, eu digo: o material que você começa agora vai com você até a prova oral.</p>
+      ${parecer("naoduvida", {
+        trav: "Mente dividida. Cada troca te devolveu para o começo do edital.",
+        inst: "A rota existe, mas balança quando aparece outra oportunidade.",
+        pe: "Não duvidar de pé: você decidiu a rota e mantém." },
+        trocas().length >= 2 ? `Você trocou de ${unir(trocas().map(x => TROCA_TXT[x]))} em 12 meses. Cada troca dessas foi um recomeço.` : "")}` },
+
+  { center: true, render: () => `
+      <span class="badge" data-drop="1">Prova 5 de 7 · Gestar</span>
+      <h2>Quando você olha o quanto falta do edital, o que sente?</h2>
+      <div class="opts">
+        ${opt("falta", "tranquilo", "😌", "Tranquilidade: vou chegar")}
+        ${opt("falta", "ansioso", "😰", "Ansiedade, mas sigo")}
+        ${opt("falta", "nunca", "🌀", "Que nunca vou terminar")}
+        ${opt("falta", "travo", "🧊", "Travo e não começo")}
+      </div>` },
+  { center: true, render: () => `
+      <h2>Você sente que estuda e <span class="hl-alert">não vê resultado</span>?</h2>
+      <div class="opts">
+        ${opt("resultado", "vejo", "📈", "Não, vejo meu progresso")}
+        ${opt("resultado", "asvezes", "🤏", "Às vezes")}
+        ${opt("resultado", "quase", "😕", "Quase sempre")}
+        ${opt("resultado", "sempre", "🛑", "Sempre. Não saio do lugar")}
+      </div>` },
+  { cta: "PRÓXIMA PROVA", render: () => `
+      <span class="badge" data-drop="3">Prova 5 de 7 · Gestar</span>
+      <h2>Existe um tempo em que o resultado <span class="hl-money">ainda é invisível.</span></h2>
+      <div class="media cn fill"><img src="img/cena-gesta.jpg" alt="Ampulheta"></div>
+      <p class="lead" data-drop="2">Com dois meses de gestação, o bebê já existe, mesmo que quase ninguém veja. Eu fazia a conta com cada aluno: em quantos dias ele fechava o edital.</p>
+      ${parecer("gesta", {
+        trav: "A espera está decidindo por você. A ansiedade diz que nada está acontecendo.",
+        inst: "Você segue, mas a ansiedade cobra caro nas semanas sem resultado visível.",
+        pe: "Gestar de pé: você confia no tempo invisível." },
+        primeira([
+          [A.falta === "nunca" || A.falta === "travo", `Você não sabe quando termina, e é isso que pesa. Com ${HORAS[A.horas] || "as horas que você tem"} por dia, o seu edital tem data para fechar.`],
+          [A.resultado === "quase" || A.resultado === "sempre", "Risque no edital cada assunto revisado: ver o edital sendo riscado é ver a gestação acontecer."]
+        ]))}` },
+
+  { center: true, render: () => `
+      <span class="badge" data-drop="1">Prova 6 de 7 · Criar raiz</span>
+      <h2>Sentou para estudar. Em quanto tempo <span class="hl-alert">pega o celular</span>?</h2>
+      <div class="opts">
+        ${opt("celular", "r15", "📱", "Menos de 15 minutos")}
+        ${opt("celular", "r30", "⏰", "De 15 a 30 minutos")}
+        ${opt("celular", "hora", "⌛", "Uma hora ou mais")}
+        ${opt("celular", "longe", "🔕", "O celular fica longe")}
+      </div>` },
+  { center: true, render: () => `
+      <h2>Como você lida com os “nãos” da preparação?</h2>
+      <p class="hint" data-drop="1">Festas, encontros, redes sociais…</p>
+      <div class="opts">
+        ${opt("naos", "paz", "🕊️", "Digo não em paz")}
+        ${opt("naos", "so", "😶", "Digo não, mas me sinto só")}
+        ${opt("naos", "cedo", "🎉", "Às vezes cedo")}
+        ${opt("naos", "naoconsigo", "🙈", "Não consigo abrir mão")}
+      </div>` },
+  { cta: "PRÓXIMA PROVA", render: () => `
+      <span class="badge" data-drop="3">Prova 6 de 7 · Criar raiz</span>
+      <h2>Antes de crescer para cima, <span class="hl-money">a semente cresce para baixo.</span></h2>
+      <div class="media cn fill"><img src="img/cena-raiz.jpg" alt="Raízes de uma árvore"></div>
+      <p class="lead" data-drop="2">Estudar para concurso não tem segredo: é você, a cadeira e os exercícios. Herdei o quarto do meu irmão e fiz dele o meu quartel.</p>
+      ${parecer("criaraiz", {
+        trav: "O seu estudo cresce para cima sem criar raiz: muita interrupção, pouca profundidade.",
+        inst: "Você protege parte do estudo, mas a profundidade ainda depende do dia.",
+        pe: "Criar raiz de pé: você aceita a fase de profundidade e sabe dizer não." },
+        primeira([
+          [A.naos === "so", "<b>Se você se sente só agora, isso não é abandono. É raiz.</b>"],
+          [A.celular === "r15", "Raiz não cresce em um solo revirado a cada 15 minutos."]
+        ]))}` },
+
+  { center: true, render: () => `
+      <span class="badge" data-drop="1">Prova 7 de 7 · Semear</span>
+      <h2>Nos últimos 30 dias, em quantos dias você estudou <span class="hl-money">de verdade</span>?</h2>
+      <div class="opts">
+        ${opt("dias", "d10", "😔", "Menos de 10")}
+        ${opt("dias", "d20", "😐", "De 10 a 20")}
+        ${opt("dias", "d25", "🙂", "De 20 a 25")}
+        ${opt("dias", "todos", "🔥", "Quase todos")}
+      </div>` },
+  { center: true, render: () => `
+      <h2>Perdeu um dia de estudo. <span class="hl-alert">E aí?</span></h2>
+      <div class="opts">
+        ${opt("perdeu", "retomo", "💪", "Retomo no dia seguinte")}
+        ${opt("perdeu", "compenso", "🏋️", "Compenso e me sobrecarrego")}
+        ${opt("perdeu", "culpa", "😞", "Bate a culpa e perco mais")}
+        ${opt("perdeu", "semana", "😩", "A semana inteira vai embora")}
+      </div>` },
+  { cta: "ALEGAÇÕES FINAIS", render: () => `
+      <span class="badge" data-drop="3">Prova 7 de 7 · Semear</span>
+      <h2>O aprovado entende <span class="hl-money">a lei da semeadura.</span></h2>
+      <div class="media cn fill"><img src="img/cena-semeia.jpg" alt="Mão com sementes"></div>
+      ${verso("O que o homem semear, isso também colherá.", "Gálatas 6:7", 2)}
+      <p class="lead" data-drop="4">Cada hora, cada questão, cada revisão é uma semente.</p>
+      ${parecer("semeia", {
+        trav: "A constância está falhando: dias de muito estudo, dias de nada, e um dia perdido vira uma semana.",
+        inst: "Você planta, mas o ritmo depende do humor da semana.",
+        pe: "Semear de pé: você planta até nos dias ruins." },
+        primeira([
+          [A.horas === "h2", "Com menos de 2 horas por dia, constância vale mais do que quantidade."],
+          [A.perdeu === "culpa" || A.perdeu === "semana", "Perder um dia não destrói a colheita. O que destrói é deixar um dia virar uma semana."]
+        ]))}` },
+
+  /* ================= FASE 3 · ALEGAÇÕES FINAIS ================= */
+  { id: "fase3", center: true, skip: () => !temFe(), render: () => `
+      <span class="badge" data-drop="1">Alegações finais</span>
+      <h2>O quanto você concorda com esta frase?</h2>
+      <div class="quote" style="text-align:center">“Se Deus quiser, eu passo.”</div>
+      <div class="opts">
+        ${opt("deus", "total", "✅", "Concordo totalmente")}
+        ${opt("deus", "parte", "🤏", "Concordo em parte")}
+        ${opt("deus", "incerto", "🤔", "Não tenho certeza")}
+        ${opt("deus", "discordo", "❌", "Discordo")}
+      </div>` },
+  { center: true, render: () => `
+      <h2>Quando você se imagina numa <span class="hl-money">cadeira de autoridade</span>, o que sente?</h2>
+      <div class="opts">
+        ${opt("cadeira", "chamado", "⚖️", "Chamado e responsabilidade")}
+        ${opt("cadeira", "medo", "😟", "Medo de não estar à altura")}
+        ${opt("cadeira", "culpa", "😶", "Culpa por desejar tanto")}
+        ${opt("cadeira", "estab", "🏡", "Penso na estabilidade")}
+      </div>` },
+  { center: true, multi: "frases", cta: "CONTINUAR", render: () => `
+      <h2>Quais dessas frases você já ouviu, ou disse a ${g("si mesmo", "si mesma")}?</h2>
+      <p class="hint" data-drop="1">Marque todas que se aplicam</p>
+      <div class="opts">
+        ${chk("frases", "loteria", "🎲", "“Concurso é loteria”")}
+        ${chk("frases", "gente", "🚫", "“Isso não é para gente como a gente”")}
+        ${chk("frases", "idade", "⌛", "“Você já passou da idade”")}
+        ${chk("frases", "parar", "💸", "“Só passa quem pode parar tudo”")}
+        ${chk("frases", "passa", "😒", "“Estuda tanto e não passa?”")}
+        ${chk("frases", "nada", "✨", "Nenhuma dessas")}
+      </div>` },
+  { cta: "CONTINUAR", render: () => {
+      const fr = (A.frases || []).filter(x => x !== "nada");
+      const linha = primeira([
+        [A.deus === "total", "Fé não substitui a revisão. Ela sustenta a constância. Esdras primeiro decidiu estudar, depois praticar."],
+        [A.cadeira === "medo", "Esse medo mostra que você entende o peso do cargo. Quem entende o peso é quem precisa ocupá-lo."],
+        [A.cadeira === "culpa", "Desejar um lugar de responsabilidade não é vaidade quando o motivo é servir."],
+        [A.cadeira === "estab", "Estabilidade é um motivo legítimo. Mas, numa preparação longa, só o propósito sustenta os dias ruins."],
+        [fr.length >= 2, `Você já ouviu ${FRASES[fr[0]]}. Essa frase não é uma prova dos autos. <b>É uma opinião.</b>`],
+        [true, "Você sente o chamado e a responsabilidade. É assim que se prepara quem vai ocupar a cadeira."]
+      ]);
+      return `
+      <span class="badge" data-drop="3">Alegações finais</span>
+      <h2>${temFe() ? "A palavra que a Bíblia usa para “aprovado” é" : "Na palavra grega,"} <span class="hl-money"><i>dokimos</i></span>: quem passou pela prova e se mostrou verdadeiro.</h2>
+      <div class="media cn fill"><img src="img/cena-fe.jpg" alt="Mãos em oração sobre a Bíblia"></div>
+      ${verso("Esdras tinha decidido dedicar-se a estudar a lei do Senhor, a praticá-la e a ensiná-la.", "Esdras 7:10", 2)}
+      <div class="echo">${linha}</div>`; } },
+
+  { center: true, render: () => `
+      <h2>Quando imagina o seu nome na lista, o que vem primeiro?</h2>
+      <div class="opts">
+        ${opt("lista", "familia", "🏡", "Estabilidade para a família")}
+        ${opt("lista", "pais", "👪", "O orgulho dos meus pais")}
+        ${opt("lista", "servir", "⚖️", "Servir e fazer justiça")}
+        ${opt("lista", "provar", "🪞", g("Provar para mim mesmo", "Provar para mim mesma"))}
+      </div>` },
+  { center: true, render: () => `
+      <h2>Quem você mais quer que <span class="hl-money">veja essa aprovação</span>?</h2>
+      <div class="opts">
+        ${opt("quem", "pais", "👪", "Meus pais")}
+        ${opt("quem", "filhos", "🧒", "Meus filhos")}
+        ${opt("quem", "duvidou", "👀", "Quem duvidou de mim")}
+        ${opt("quem", "eu", "🪞", "Eu, antes de todos")}
+      </div>` },
+  { cta: "VER A MINHA SENTENÇA", render: () => {
+      const linha = {
+        pais: "Você quer que os seus pais vejam. Eu entendo: de madrugada, meu pai sentava ao meu lado enquanto eu estudava.",
+        filhos: "Você quer que os seus filhos vejam. Eles já estão vendo: cada dia de estudo é uma lição.",
+        duvidou: "Quem duvidou não precisa ser convencido. Precisa ver. E quem mostra é a sua constância.",
+        eu: `Você quer provar para você ${g("mesmo", "mesma")}. Essa é a aprovação que sustenta todas as outras.`
+      }[A.quem] || "";
+      return `
+      <span class="badge" data-drop="3">Antes da sentença</span>
+      <h2>Antes de redigir uma sentença, <span class="hl-money">o juiz lê tudo de novo.</span></h2>
+      <div class="media dp fill"><img src="img/dayana-bracos-cruzados.jpg" alt="Dayana Martins de braços cruzados"></div>
+      <div class="quote" data-drop="2">“Antes da toga, fui assessora de juízes e desembargadores. Redigir sentenças foi a minha verdadeira escola.”<cite data-drop="1">Dayana Martins · ex-juíza do TJGO</cite></div>
+      ${linha ? `<div class="echo">${linha}</div>` : ""}`; } },
+
+  /* ================= FASE 4 · A SENTENÇA ================= */
+  { id: "fase4", auto: true, center: true, render: () => `
+      <h2>Lendo os autos…</h2>
+      <div class="load"><div class="load-top"><span id="ld-txt">Examinando as 7 provas</span><b id="ld-pct">0%</b></div><div class="load-bar"><i id="ld-bar"></i></div></div>
+      <p class="lead" data-drop="1">Estou cruzando as suas respostas com os 7 códigos da aprovação.</p>`,
+    onShow: () => loader(["Examinando as 7 provas", "Pesando cada resposta", "Redigindo a decisão"]) },
+
+  { cta: "RESPONDER ÀS ÚLTIMAS 3", render: () => {
+      const t = travado(), c = COD[t], mv = motivos(t, 3);
+      return `
+      <span class="badge" data-drop="2">A sua sentença · decisão</span>
+      <h2>Decido: a sua preparação começa por <span class="hl-alert">${c.nome}</span>.</h2>
+      <p class="lead" data-drop="3"><i>${c.frase}</i></p>
+      ${mv.length ? `<ul class="facts">${mv.map(m => `<li><span class="ck">✓</span><span>${m}</span></li>`).join("")}</ul>` : ""}
+      <p class="hint" data-drop="1">A fundamentação completa vem na íntegra da sentença:</p>
+      <ul class="locks">${ORDEM.filter(x => x !== t).map(x => `<li><span>${COD[x].nome}</span>🔒</li>`).join("")}</ul>
+      <div class="echo" data-drop="4">Sentença sobre a sua preparação, não sobre você. <b>Código não é talento. É princípio, e princípio se aprende.</b></div>`; } },
+
+  { center: true, render: () => `
+      <h2>O que mais te trava hoje?</h2>
+      <p class="hint" data-drop="1">Escolha a que mais pesa</p>
+      <div class="opts">
+        ${opt("trava", "metodo", "📐", "Falta um método claro")}
+        ${opt("trava", "alguem", "🧭", "Falta alguém que já passou")}
+        ${opt("trava", "constancia", "🔁", "Constância: começo e paro")}
+        ${opt("trava", "fe", "🙏", "Falta direção e fé")}
+        ${opt("trava", "acreditar", "💛", "Acreditar que é para mim")}
+      </div>` },
+
+  { cta: "CONTINUAR", render: () => {
+      const Q = {
+        metodo:     ["Método claro é exatamente o que eu vou te entregar.", "Cada aula termina com uma prática para os próximos 7 dias. E no Diário do Concurseiro você anota o que estudou, errou e precisa revisar.", `<div class="media pr fill"><img src="img/bonus-diario.jpg" alt="Diário do Concurseiro"></div>`],
+        alguem:     ["Eu já passei por esse caminho. E vou com você.", "Aprovada juíza aos 23 anos, com menos de um ano de preparação. De 2011 a 2021, fui mentora de concurseiros: eu ensinava como estudar e como continuar.", `<div class="media dt fill"><img src="img/dayana-toga.jpg" alt="Dayana Martins de toga"></div>`],
+        constancia: ["Começar e parar tem solução: a semente mínima.", "O pouco que você faz até no pior dia. Eu estudei trabalhando: saía do tribunal às 13h, estudava à tarde e ia para o cursinho à noite.", `<div class="media pr fill"><img src="img/depo-adriana-2.jpg" alt="Mensagem da aluna Adriana Lima: consegui cumprir tudo do cronograma"></div>`],
+        fe:         ["Você não precisa escolher entre método e fé.", "Na Aula 8, Aprovado diante de Deus, eu mostro como colocar a fé na preparação. E o Devocional do Concurseiro traz um versículo e um estudo por dia, durante 30 dias.", `<div class="media pr fill"><img src="img/bonus-devocional.jpg" alt="Devocional do Concurseiro"></div>`],
+        acreditar:  [`Ninguém se sente ${g("pronto", "pronta")}. Quem passa se posiciona mesmo assim.`, "Eu estudei em escola pública no interior de Goiás. Antes de passar para escrevente, aos 19 anos, fui reprovada. Tá com medo? Vai com medo mesmo.", `<div class="media cn fill"><img src="img/cena-atacante.jpg" alt="Jogador em posição de ataque"></div>`]
+      }[A.trava] || ["Fique tranquilo.", "A sua sentença já mostra por onde começar.", ""];
+      return `
+      <span class="badge" data-drop="3">Sobre a sua trava</span>
+      <h2><span class="hl-money">${Q[0]}</span></h2>
+      <p class="lead">${Q[1]}</p>
+      ${Q[2]}
+      ${A.trava === "constancia" ? `<p class="hint" data-drop="1">Adriana Lima · aluna da Mentoria Método Aprovação · 2026</p>` : `<div class="echo" data-drop="1">Isso vem <b>junto com as aulas</b>, sem custo a mais.</div>`}`; } },
+
+  { center: true, render: () => `
+      <h2>Quanto você quer <span class="hl-money">mudar isso agora</span>?</h2>
+      <div class="opts">
+        ${opt("disposicao", "decidi", "🔥", "Decidi: faço o que for preciso")}
+        ${opt("disposicao", "muito", "💪", "Quero muito")}
+        ${opt("disposicao", "medo", "😟", "Quero, mas tenho medo")}
+        ${opt("disposicao", "curioso", "👀", "Por enquanto, curiosidade")}
+      </div>` },
+
+  { cta: "VER A MINHA SENTENÇA COMPLETA", render: () => `
+      <h2>A sua sentença está <span class="hl-money">pronta!</span></h2>
+      <p class="lead">Para onde eu envio a íntegra? Falta só um passo.</p>
+      <form id="lead" class="lead-form" novalidate>
+        <label for="f-nome">Primeiro nome<input id="f-nome" name="nome" type="text" autocomplete="given-name" placeholder="Digite seu primeiro nome" value="${esc(A.nome)}"></label>
+        <label for="f-email">E-mail<input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="Digite seu melhor e-mail" value="${esc(A.email)}"></label>
+        <label for="f-whats">WhatsApp<input id="f-whats" name="whats" type="tel" autocomplete="tel-national" inputmode="numeric" placeholder="(62) 99999-9999" value="${esc(A.whats)}"></label>
+        <p class="err" id="f-err" role="alert" hidden></p>
+        <button type="submit" hidden></button>
+      </form>
+      <div class="media dc fill" data-drop="4"><img src="img/dayana-sentada.jpg" alt="Dayana Martins sentada"></div>
+      <p class="legal" data-drop="1">Ao clicar no botão, você autoriza o uso dos seus dados (nome, e-mail e WhatsApp) para receber a sua sentença, conteúdos gratuitos e comunicações da Dayana Martins por e-mail e WhatsApp, conforme a Política de Privacidade e os Termos de Uso. Você pode cancelar quando quiser.</p>`,
+    onShow: () => {
+      const w = document.getElementById("f-whats");
+      w.addEventListener("input", () => { const d = w.value.replace(/\D/g, "").slice(0, 11); w.value = d.length > 6 ? `(${d.slice(0, 2)}) ${d.slice(2, d.length - 4)}-${d.slice(-4)}` : d.length > 2 ? `(${d.slice(0, 2)}) ${d.slice(2)}` : d; });
+      document.getElementById("lead").addEventListener("submit", e => { e.preventDefault(); cta.click(); });
+    },
+    onCta: () => {
+      const nome = document.getElementById("f-nome").value.trim();
+      const email = document.getElementById("f-email").value.trim();
+      const whats = document.getElementById("f-whats").value.replace(/\D/g, "");
+      const err = document.getElementById("f-err");
+      const fail = (msg, id) => { err.textContent = msg; err.hidden = false; document.getElementById(id).focus(); fit(); return false; };
+      if (nome.length < 2) return fail("Digite seu primeiro nome.", "f-nome");
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return fail("Confira o e-mail: falta o @ ou o domínio.", "f-email");
+      if (whats.length < 10) return fail("Digite o WhatsApp com DDD.", "f-whats");
+      Object.assign(A, { nome: nome.split(" ")[0], email, whats: document.getElementById("f-whats").value });
+      return true;
+    } },
+
+  /* íntegra da sentença: fundamentação + dispositivo */
+  { id: "sentenca", cta: "CONTINUAR", render: () => {
+      const t = travado();
+      return `
+      <div class="selo">${A.nome ? esc(A.nome).toUpperCase() + ", ESTA" : "ESTA"} É A SUA SENTENÇA</div>
+      <p class="hint" style="margin:0" data-drop="2">Fundamentação · os 7 códigos</p>
+      <div class="fund">${ORDEM.map(c => { const v = nota(c), f = faixa(v); return `<div class="fl${c === t ? " me" : ""}"><span>${COD[c].nome}</span><span class="fx ${f[1]}">${f[0]}</span><div class="ft"><i class="${f[1]}" style="width:${Math.max(6, v)}%"></i></div></div>`; }).join("")}</div>
+      <div class="dispo"><b>Dispositivo</b><strong>Comece por ${COD[t].nome}: Aula ${COD[t].aula}.</strong></div>
+      <div class="echo"><b>Cumprimento · próximos 7 dias:</b> ${COD[t].acao}</div>`; } },
+
+  /* relatório: o que a pessoa contou */
+  { cta: "CONTINUAR", center: true, render: () => {
+      const t = travado();
+      const momento = { faculdade: "Ainda está na faculdade", formei: "Acabou de se formar", estudo: `Estuda há <b>${TEMPO[A.tempo] || "algum tempo"}</b>`, parei: "Parou e quer voltar" }[A.momento] || "Está se preparando";
+      const tr = { metodo: "um método claro", alguem: "alguém que já passou", constancia: "constância", fe: "direção e fé", acreditar: "acreditar que é para você" }[A.trava];
+      return `
+      <h2>${A.nome ? esc(A.nome) + ", você" : "Você"} me contou que…</h2>
+      <ul class="facts plist">
+        <li><span class="th e">⚖️</span><span>Se prepara para <b>${CARREIRA[A.carreira] || "um concurso"}</b>. ${momento}.</span></li>
+        <li data-drop="2"><span class="th e">⏰</span><span>${(TRAB[A.trabalho] || "Estuda").replace(/^./, m => m.toUpperCase())} e tem <b>${HORAS[A.horas] || "algumas horas"}</b> por dia.</span></li>
+        <li><span class="th e">🔒</span><span>O código mais travado é <b>${COD[t].nome}</b>. É por ele que a sua preparação começa.</span></li>
+        ${tr ? `<li data-drop="3"><span class="th e">🧭</span><span>O que mais pesa hoje é <b>${tr}</b>. As aulas e os bônus resolvem isso.</span></li>` : ""}
+      </ul>
+      <div class="selo">POR ISSO, A SUA SENTENÇA COMEÇA PELA AULA ${COD[t].aula}</div>`; } },
+
+  /* antes × depois */
+  { cta: "CONTINUAR", center: true, render: () => {
+      const t = travado();
+      const AD = {
+        pratica: ["Termina o assunto e esquece", "Faz questões e marca as revisões"],
+        seposiciona: ["“Ainda não é a hora”", "Se inscreve e vai"],
+        persevera: ["Prova ruim: “será que é pra mim?”", "Volta a estudar em poucos dias"],
+        naoduvida: ["Sai outro edital e recomeça", "Segue na rota; no máximo, treina"],
+        gesta: ["“Não estou saindo do lugar”", "Olha o edital riscado e confia"],
+        criaraiz: ["O celular interrompe a cada 15 min", "A primeira hora é só do edital"],
+        semeia: ["Um dia perdido vira uma semana", "Retoma no dia seguinte"]
+      };
+      const lista = [t, ...ORDEM.filter(c => c !== t).sort((a, b) => nota(a) - nota(b))].slice(0, 4);
+      return `
+      <h2>Veja a diferença <span class="hl-alert">TRAVADO</span> × <span class="hl-money">DESTRAVADO</span></h2>
+      <div class="ad fill">
+        <div class="ad-col">${who("bad", "Hoje")}<b class="cmp-h bad">Travado</b>
+          ${lista.map(c => bar(COD[c].nome, Math.max(8, nota(c)), "bad")).join("")}</div>
+        <div class="ad-col good">${who("good", "Com os 7 códigos")}<b class="cmp-h good">Destravado</b>
+          ${lista.map(c => bar(COD[c].nome, 85, "good")).join("")}</div>
+      </div>
+      <div class="vs" data-drop="2">
+        <div class="vs-col bad"><b>Hoje</b><span>${AD[t][0]}</span></div>
+        <div class="vs-col good"><b>Com ${COD[t].nome} de pé</b><span>${AD[t][1]}</span></div>
+      </div>
+      <p class="legal" data-drop="1">Leitura feita a partir das suas respostas. Não é garantia de aprovação: código se treina.</p>`; } },
+
+  /* prova de autoridade */
+  { cta: "CONTINUAR", render: () => `
+      <span class="badge" data-drop="3">Quem vai sentar ao seu lado</span>
+      <h2>Quem examinou a sua preparação <span class="hl-money">já esteve do outro lado da mesa</span></h2>
+      <div class="media dp fill"><img src="img/dayana-blazer.jpg" alt="Dayana Martins de blazer"></div>
+      <ul class="facts tight">
+        <li><span class="ck">✓</span><span>Aprovada juíza aos 23 anos, no primeiro e único concurso de juiz que fez</span></li>
+        <li><span class="ck">✓</span><span>Quase 20 anos dentro do Judiciário, de escrevente a juíza</span></li>
+        <li data-drop="2"><span class="ck">✓</span><span>Mentora de concurseiros de 2011 a 2021</span></li>
+      </ul>` },
+
+  /* a mesma história */
+  { cta: "CONTINUAR", render: () => `
+      <p class="hint" style="margin:0" data-drop="2">Antes de começar, quase todo concurseiro me conta a mesma história…</p>
+      <h2>Estuda muito, mas sente que <span class="hl-alert">não sai do lugar.</span></h2>
+      <div class="media dp fill"><img src="img/dayana-retrato.jpg" alt="Dayana Martins"></div>
+      <div class="echo bad-echo">A maioria acha que falta conteúdo. <b>O que falta é o que fazer com ele.</b> O seu cursinho já entrega o conteúdo.</div>` },
+
+  /* o método */
+  { cta: "CONTINUAR", center: true, render: () => {
+      const t = travado();
+      const R = ["pratica", "gesta"].includes(t) ? 1 : ["semeia", "criaraiz"].includes(t) ? 2 : 3;
+      return `
+      <h2>Você não precisa de mais conteúdo. <span class="hl-money">Precisa saber o que fazer com ele.</span></h2>
+      <p class="lead" data-drop="1">Eu não vou te dar aula de Direito. Eu vou sentar ao seu lado em 3 frentes:</p>
+      <ol class="rot">
+        <li${R === 1 ? ' class="me"' : ""}><b>Revisar no tempo certo</b><span>Antes de esquecer: o Método 48, 7 e 30.</span></li>
+        <li${R === 2 ? ' class="me"' : ""}><b>Manter a constância</b><span>A semente mínima e o Diário do Concurseiro.</span></li>
+        <li${R === 3 ? ' class="me"' : ""}><b>Permanecer na rota</b><span>Os códigos que seguram você até a prova.</span></li>
+      </ol>
+      <div class="echo" data-drop="2">✅ Pela sua sentença, você começa pela <b>frente ${R}</b>.</div>`; } },
+
+  /* o plano */
+  { render: () => {
+      const t = travado();
+      return `
+      <p class="hint" style="margin:0" data-drop="2">Com base em tudo que você respondeu…</p>
+      <h2>Você vai receber o seu <span class="hl-money">plano de cumprimento</span></h2>
+      <div class="trilha fill" role="img" aria-label="Etapas do plano">
+        <div class="tr-step"><i></i><b>Hoje</b><span>Você já sabe por onde começar</span></div>
+        <div class="tr-step"><i></i><b>Aula ${COD[t].aula}: destravar ${COD[t].nome}</b><span>Com a prática dos próximos 7 dias</span></div>
+        <div class="tr-step"><i></i><b>Os outros 6 códigos de pé</b><span>Com o Diário para ver a sua evolução</span></div>
+        <div class="tr-step goal"><i></i><b>Chegar à prova ${g("pronto", "pronta")}</b><span>Com o Protocolo Antitrava</span></div>
+      </div>
+      <h2 style="font-size:clamp(15px,2.4dvh,18px)">Você acredita que conseguiria com esse plano nas mãos?</h2>
+      <div class="opts">
+        ${opt("acredita", "pronto", "🙌", g("Sim, estou pronto", "Sim, estou pronta"))}
+        ${opt("acredita", "direcao", "🧭", "Com certeza, só preciso de direção")}
+        ${opt("acredita", "tentar", "🤞", "Acho que sim, quero tentar")}
+      </div>`; } },
+
+  { auto: true, center: true, render: () => `
+      <h2>Preparando a íntegra da sua sentença…</h2>
+      <div class="load"><div class="load-top"><span id="ld-txt">Separando a sua aula de início</span><b id="ld-pct">0%</b></div><div class="load-bar"><i id="ld-bar"></i></div></div>`,
+    onShow: () => loader(["Separando a sua aula de início", "Escolhendo o bônus da sua trava", "Finalizando o seu plano"]) },
+
+  /* ================= PÁGINA DE VENDAS (rola; botão fixo) ================= */
+  { id: "fase5", scroll: true, cta: "QUERO DESTRAVAR O MEU CÓDIGO", render: () => {
+      const nome = esc(A.nome || "");
+      const t = travado();
+      const hot = TRAVA_BONUS[A.trava];
+      const lvl = (label, val, pct, kind) => `<div class="lv"><b>${label}</b><span>${val}</span><i class="lv-t ${kind}"><u style="width:${pct}%"></u><s style="left:calc(${pct}% - 9px)"></s></i></div>`;
+      const bonus = [...BONUS].sort((x, y) => (y.id === hot) - (x.id === hot));
+      const total = BONUS.reduce((s, b) => s + b.valor, 0);
+      const fx = s => s.replace("{o|a}", g("o", "a"));
+      const priceBox = `<div class="mm-price">
+          <div class="mm-price-h">${Math.floor((1 - 47 / total) * 100)}% OFF</div>
+          <div class="mm-price-b"><b>Os 7 Códigos da Aprovação para ${nome || "você"} começar por ${COD[t].nome} e chegar à prova ${g("pronto", "pronta")}</b>
+            <div class="mm-price-v"><small>De: <s>${brl(total)}</s> por</small><strong>R$47</strong><small>pagamento único</small></div></div>
+          <ul class="mm-price-why">
+            <li>Menos de <b>R$1,60 por dia</b> durante um mês</li>
+            <li>Menos do que <b>uma aula avulsa</b> de cursinho</li>
+          </ul>
+        </div>
+        <p class="mm-pay">Cartão de crédito · Pix</p>`;
+      const pack = `<div class="packrow">${["bonus-devocional", "bonus-reprovacao", "bonus-antitrava", "livro-capa", "bonus-diario"].map(i => `<img src="img/${i}.jpg" alt="">`).join("")}</div>`;
+      const faq = [
+        ["Isso é curso de Direito?", "Não. O seu cursinho já entrega o conteúdo. Aqui você aprende o que fazer com ele: revisar, praticar, manter a constância e permanecer na rota."],
+        ["Serve para OAB ou outros concursos?", "Os 7 códigos valem para qualquer prova. Os exemplos vêm da magistratura, o caminho que a Dayana conhece por dentro."],
+        ["Preciso ser cristão?", "Não. Os 7 códigos funcionam com ou sem fé. A Aula 8 e o Devocional são para quem quiser ir mais fundo."],
+        ["Como recebo o acesso?", `Por e-mail, logo após a compra. ${TBD}`],
+        ["E se eu comprar e não gostar?", "Você tem 7 dias de garantia. Se não fizer sentido, devolvemos 100% do valor."]
+      ];
+      return `
+      <h1 class="mm-h1">Ei ${nome}…<br>A sua <span class="hl-money">sentença</span> ficou pronta!</h1>
+
+      <div class="mm-ad">
+        <b class="mm-ad-h bad">HOJE</b><b class="mm-ad-h good">DESTRAVADO</b>
+        <div class="v-pic"><img src="${personImg()}" alt="" style="filter:grayscale(1)"></div>
+        <div class="v-pic"><img src="${personImg()}" alt=""></div>
+        ${lvl(COD[t].nome, "Travado", Math.max(8, nota(t)), "bad")}${lvl(COD[t].nome, "De pé", 88, "good")}
+        ${lvl("Constância", nota("semeia") < 40 ? "Começo e paro" : "Oscila", Math.max(10, nota("semeia")), "bad")}${lvl("Constância", "Todo dia", 85, "good")}
+        ${lvl("Revisão", nota("pratica") < 40 ? "Quando lembro" : "Sem calendário", Math.max(10, nota("pratica")), "bad")}${lvl("Revisão", "No tempo certo", 86, "good")}
+        ${lvl("Direção", nota("naoduvida") < 40 ? "Troca de rota" : "Balança", Math.max(10, nota("naoduvida")), "bad")}${lvl("Direção", "Rota decidida", 84, "good")}
+      </div>
+
+      <div class="mm-name">${nome || "E agora"}…</div>
+      <div class="v-img"><img src="img/dayana-sentada.jpg" alt="Dayana Martins"></div>
+      <p class="mm-sign">Dayana Martins, aqui!</p>
+      <p class="mm-sub">Olha o que você vai receber ↓</p>
+
+      <h2 class="mm-h2">VOCÊ VAI APRENDER, CÓDIGO A CÓDIGO:</h2>
+      <article class="mm-card"><img class="mm-face" src="img/dayana-avatar-toga.jpg" alt="Dayana Martins"><b>8 AULAS CURTAS COMIGO</b><p>Uma para cada código e uma sobre fé e preparação. Aulas curtas, de 3 a 10 minutos.</p></article>
+      <article class="mm-card"><b>OS 7 CÓDIGOS DA APROVAÇÃO</b><p>Começando pelo seu: <b>${COD[t].nome}</b>.</p><div class="chips">${ORDEM.map(c => `<span class="${c === t ? "me" : ""}">${COD[c].nome}</span>`).join("")}</div></article>
+      <article class="mm-card"><b>CADA AULA TERMINA COM UMA PRÁTICA DE 7 DIAS</b><p>Nada de teoria solta: você sai de cada aula sabendo o que fazer na semana.</p></article>
+
+      <div class="mm-soft">Ou seja, você não vai precisar adivinhar nada…</div>
+      <div class="mm-green">EU SENTO AO SEU LADO EM CADA UM DOS 7 CÓDIGOS</div>
+      <div class="mm-lightgreen">Do primeiro código destravado até o dia da prova</div>
+
+      <div class="mm-red">“DAYANA, E SE EU TRAVAR NA PROVA OU REPROVAR DE NOVO?”</div>
+      <p class="mm-calm">FIQUE ${g("TRANQUILO", "TRANQUILA")}!<br>Para você chegar à prova ${g("pronto", "pronta")} e saber o que fazer se o resultado não vier…</p>
+      <div class="mm-soft">Você terá:</div>
+      ${bonus.map((x, i) => `<div class="mm-bh">#BÔNUS 0${i + 1}: ${x.nome}</div>
+        <article class="mm-bonus"><img src="${x.img}" alt="Capa do bônus ${x.nome}"><b>${x.sub}</b><p>${fx(x.txt)}</p><span class="mm-val">VALOR ESTIMADO: <s>${brl(x.valor)}</s></span>${x.id === hot ? `<em class="mm-tag">Resolve a sua trava</em>` : ""}</article>`).join("")}
+
+      <div class="mm-obj"><b>“E se eu não tiver tempo?”</b><p>As aulas são curtas e a prática cabe na sua rotina: a semente mínima é o que você faz até no pior dia.</p></div>
+      <div class="mm-obj"><b>“E se não for para mim?”</b><p>Você tem 7 dias de garantia. Assista às aulas: se não fizer sentido, devolvemos 100% do seu dinheiro.</p></div>
+
+      <p class="mm-lapis">Se somarmos os bônus na ponta do lápis, daria…</p>
+      <ul class="mm-stack">
+        ${BONUS.map(x => `<li><b>${x.nome.toUpperCase()}</b><span>${brl(x.valor)}</span></li>`).join("")}
+      </ul>
+      <p class="mm-total"><s>${brl(total)}</s></p>
+      <p class="mm-porem">PORÉM, VOCÊ LEVA AS 8 AULAS E OS 5 BÔNUS POR…</p>
+      ${pack}
+      ${priceBox}
+
+      <h2 class="mm-h2">O QUE UMA ALUNA DA MENTORIA ME MANDOU</h2>
+      <div class="depos2"><img src="img/depo-adriana-2.jpg" alt="Mensagem da aluna Adriana Lima"><img src="img/depo-adriana-1.jpg" alt="Mensagem da aluna Adriana Lima"></div>
+      <p class="v-p center">Adriana Lima · aluna da Mentoria Método Aprovação · 2026</p>
+
+      <h2 class="mm-h2">QUEM VAI SENTAR AO SEU LADO</h2>
+      <div class="v-img"><img src="img/dayana-branco.jpg" alt="Dayana Martins"></div>
+      <div class="v-stats">
+        <div>APROVADA JUÍZA AOS <b>23 ANOS</b>, NO PRIMEIRO CONCURSO</div>
+        <div><b>QUASE 20 ANOS</b> DENTRO DO JUDICIÁRIO, DE ESCREVENTE A JUÍZA</div>
+        <div>MENTORA DE CONCURSEIROS DE <b>2011 A 2021</b></div>
+      </div>
+
+      <h2 class="mm-h2">COMECE AGORA PELO <span class="hl-money">CÓDIGO ${COD[t].nome}</span></h2>
+      ${pack}
+      ${priceBox}
+
+      <div class="selo">GARANTIA DE 7 DIAS</div>
+      <p class="v-p center">Assista às aulas e use os bônus. Se em até 7 dias você achar que não é para você, devolvemos 100% do seu dinheiro.</p>
+      <p class="v-p center"><b>“Eu quero ver você entre os que chegam até o fim.”</b><br>Dayana Martins</p>
+
+      <h2 class="mm-h2">PERGUNTAS FREQUENTES</h2>
+      <div class="v-faq">${faq.map(f => `<details><summary>${f[0]}</summary><p>${f[1]}</p></details>`).join("")}</div>
+
+      <footer class="v-foot">
+        <p>Copyright © 2026 · Dayana Martins · Todos os direitos reservados.</p>
+        <p><b>Razão social ${TBD}</b> · CNPJ ${TBD}</p>
+        <p><b>Aviso legal:</b> produto digital educacional. Não é curso preparatório nem aula de Direito. Os resultados dependem do estudo e da dedicação de cada pessoa. <b>Não há garantia de aprovação.</b> Garantia legal de 7 dias (art. 49 do CDC).</p>
+      </footer>`; },
+    onCta: () => true },
+
+  /* ================= CHECKOUT (protótipo visual) ================= */
+  { id: "checkout", scroll: true, cta: "FINALIZAR COMPRA · R$47", render: () => `
+      <div class="ck-top"><span>🔒 Pagamento 100% seguro</span><span>Plataforma ${TBD}</span></div>
+      <div class="ck-prod">
+        <img class="ck-cover" src="img/dayana-avatar-toga.jpg" alt="Dayana Martins">
+        <div><b>Os 7 Códigos da Aprovação</b><small>8 aulas + 5 bônus · acesso por e-mail</small><p class="ck-price">R$47</p></div>
+      </div>
+      <form class="ck-form" id="ck" novalidate>
+        <h3 class="ck-h">1. Seus dados</h3>
+        <label for="ck-nome">Nome completo<input id="ck-nome" type="text" autocomplete="name" value="${esc(A.nome || "")}" placeholder="Seu nome completo"></label>
+        <label for="ck-email">E-mail<input id="ck-email" type="email" autocomplete="email" value="${esc(A.email || "")}" placeholder="Seu melhor e-mail"></label>
+        <div class="ck-2">
+          <label for="ck-cpf">CPF<input id="ck-cpf" type="text" inputmode="numeric" placeholder="000.000.000-00"></label>
+          <label for="ck-whats">WhatsApp<input id="ck-whats" type="tel" value="${esc(A.whats || "")}" placeholder="(62) 99999-9999"></label>
+        </div>
+        <h3 class="ck-h">2. Pagamento</h3>
+        <div class="ck-pay" role="tablist">
+          <button type="button" class="on" data-pay="pix" role="tab" aria-selected="true">Pix</button>
+          <button type="button" data-pay="cartao" role="tab" aria-selected="false">Cartão</button>
+        </div>
+        <div class="ck-panel" data-panel="pix"><p>✓ Aprovação imediata. O QR Code aparece depois de finalizar.</p></div>
+        <div class="ck-panel" data-panel="cartao" hidden>
+          <p class="ck-note">No protótipo os campos do cartão ficam desativados. Na página real eles vêm da plataforma de pagamento.</p>
+          <label>Número do cartão<input type="text" disabled placeholder="•••• •••• •••• ••••"></label>
+          <div class="ck-2"><label>Validade<input type="text" disabled placeholder="MM/AA"></label><label>CVV<input type="text" disabled placeholder="•••"></label></div>
+        </div>
+        <div class="ck-sum"><div class="tot"><span>Total</span><b>R$47,00</b></div></div>
+        <p class="ck-err" id="ck-err" role="alert" hidden></p>
+      </form>
+      <div class="ck-trust">
+        <div><b>🛡️ Garantia de 7 dias</b><small>100% do seu dinheiro de volta</small></div>
+        <div><b>⚡ Acesso por e-mail</b><small>logo após a compra</small></div>
+      </div>
+      <p class="ck-legal">Ao finalizar, você concorda com os Termos de Uso e a Política de Privacidade. Vendido por ${TBD} · CNPJ ${TBD}.</p>`,
+    onShow: () => {
+      app.querySelectorAll("[data-pay]").forEach(b => b.addEventListener("click", () => {
+        app.querySelectorAll("[data-pay]").forEach(x => { x.classList.toggle("on", x === b); x.setAttribute("aria-selected", x === b); });
+        app.querySelectorAll("[data-panel]").forEach(pnl => pnl.hidden = pnl.dataset.panel !== b.dataset.pay);
+      }));
+      const cpf = document.getElementById("ck-cpf");
+      cpf.addEventListener("input", () => { const d = cpf.value.replace(/\D/g, "").slice(0, 11); cpf.value = d.replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d{1,2})$/, "$1-$2"); });
+      document.getElementById("ck").addEventListener("submit", e => { e.preventDefault(); cta.click(); });
+    },
+    onCta: () => {
+      const err = document.getElementById("ck-err");
+      const miss = [["ck-nome", "o nome completo"], ["ck-email", "o e-mail"], ["ck-cpf", "o CPF"]].find(([id]) => !document.getElementById(id).value.trim());
+      if (miss) { err.textContent = `Preencha ${miss[1]} para continuar.`; err.hidden = false; document.getElementById(miss[0]).focus(); return false; }
+      err.hidden = true;
+      A.nome = (document.getElementById("ck-nome").value.trim().split(" ")[0]) || A.nome;
+      return true;
+    } },
+
+  /* ================= OBRIGADO + PRÓXIMO PASSO ================= */
+  { id: "obrigado", scroll: true, cta: "QUERO ENTRAR NA LISTA VIP", render: () => {
+      const nome = esc(A.nome || "");
+      const t = travado();
+      return `
+      <div class="ty-ok"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="var(--money)"/><path d="M19 33l9 9 17-19" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h1 class="v-h1">${nome ? nome + ", sua" : "Sua"} compra foi confirmada!</h1>
+      <p class="v-p center">A partir de agora, você não está mais ${g("sozinho", "sozinha")} até a prova.</p>
+      <div class="ck-prod ty-prod">
+        <img class="ck-cover" src="img/dayana-avatar-toga.jpg" alt="Dayana Martins">
+        <div><span class="v-pill">ACESSO LIBERADO</span><b>Os 7 Códigos da Aprovação</b><small>8 aulas + 5 bônus</small></div>
+      </div>
+      ${ph("VÍDEO", "Boas-vindas da Dayana (até 1 min)", "O que fazer nas próximas 24 horas. Gravar junto com as aulas.", "ty-vid")}
+      <h2 class="v-h2">SEUS PRÓXIMOS 3 PASSOS</h2>
+      <ol class="ty-steps">
+        <li><b>Abra o seu e-mail</b><span>O acesso chega em ${esc(A.email || "seu e-mail")}. Confira também o spam.</span></li>
+        <li><b>Fique de olho no WhatsApp</b><span>Também mandamos o link em ${esc(A.whats || "seu WhatsApp")}.</span></li>
+        <li><b>Assista à Aula ${COD[t].aula} ainda hoje</b><span>${COD[t].nome}: é por ela que a sua sentença começa.</span></li>
+      </ol>
+      <div class="ty-vip">
+        <span class="v-pill">CONVITE PARA ALUNOS</span>
+        <h2 class="v-h2" style="margin-top:6px !important">Quer se preparar para a magistratura com acompanhamento de perto?</h2>
+        <div class="v-img"><img src="img/dayana-toga.jpg" alt="Dayana Martins de toga"></div>
+        <p class="v-p">A próxima etapa é a <b>Mentoria Método Aprovação</b>: acompanhamento ao vivo para estudar com estratégia, constância e direção. Nome, data e formato ${TBD}.</p>
+        <ul class="v-best">
+          <li>Encontros ao vivo com a Dayana</li>
+          <li>Plano, revisão e correção de rota</li>
+          <li>Prioridade para quem está na lista VIP</li>
+        </ul>
+        <button type="button" class="v-buy" data-vip>QUERO ENTRAR NA LISTA VIP</button>
+        <p class="ck-legal">A lista VIP é gratuita. Você recebe os avisos no WhatsApp.</p>
+      </div>
+      <div class="ty-insta"><b>Siga a Dayana no Instagram</b><span>@dayanamartinsoficial</span></div>
+      <footer class="v-foot"><p>Dúvidas sobre o acesso: suporte ${TBD}</p></footer>`; },
+    onShow: () => app.querySelectorAll("[data-vip]").forEach(b => b.addEventListener("click", () => cta.click())),
+    onCta: () => { toast("Link do grupo VIP no WhatsApp · a definir"); return false; } }
+];
+S.forEach((s, i) => { s.n = i + 1; });
+const TOTAL = S.length;
+
+/* pré-carrega as fotos em segundo plano */
+const IMGS = ["genero-homem", "genero-mulher", ...["h", "m"].flatMap(x => [1, 2, 3, 4].map(n => `idade-${x}-${n}`)),
+  "dayana-toga", "cena-pratica", "cena-atacante", "cena-montanha", "cena-rota", "cena-gesta", "cena-raiz", "cena-semeia", "cena-fe",
+  "dayana-bracos-cruzados", "dayana-sentada", "dayana-blazer", "dayana-retrato", "dayana-branco", "dayana-avatar-toga",
+  "bonus-devocional", "bonus-reprovacao", "bonus-antitrava", "bonus-diario", "livro-capa", "depo-adriana-1", "depo-adriana-2"].map(n => `img/${n}.jpg`);
+const keep = [], queue = []; let busy = 0;
+function pump() { while (busy < 4 && queue.length) { const src = queue.shift(); busy++; const i = new Image(); i.decoding = "async"; keep.push(i); i.onload = i.onerror = () => { busy--; pump(); }; i.src = src; } }
+setTimeout(() => { queue.push(...IMGS); pump(); }, 0);
+
+/* regra da safe area: a tela tem que caber sem rolar */
+function fit() {
+  const sec = app.querySelector(".screen");
+  if (!sec || sec.classList.contains("scroll")) return;
+  sec.querySelectorAll("[data-drop]").forEach(el => el.hidden = false);
+  const drops = [...sec.querySelectorAll("[data-drop]")].sort((a, b) => b.dataset.drop - a.dataset.drop);
+  const overflows = () => sec.scrollHeight > sec.clientHeight;
+  while (overflows() && drops.length) drops.shift().hidden = true;
+}
+
+const app = document.getElementById("app");
+const foot = document.getElementById("foot");
+const cta = document.getElementById("cta");
+const back = document.getElementById("back");
+let cur = 0;
+
+function show(i, push = true) {
+  if (push && cur !== i) hist.push(cur);
+  cur = i;
+  const s = S[i];
+  app.innerHTML = `<section class="screen${s.center ? " center-y" : ""}${s.scroll ? " scroll" : ""}">${s.render()}</section>`;
+  document.getElementById("prog").style.width = Math.min(100, (s.n / TOTAL) * 100) + "%";
+  back.disabled = hist.length === 0;
+  foot.hidden = !s.cta;
+  if (s.cta) { cta.textContent = s.cta; cta.disabled = s.multi ? !(A[s.multi] || []).length : false; }
+  window.scrollTo(0, 0); app.scrollTop = 0;
+  fit();
+  if (s.onShow) s.onShow();
+  app.querySelectorAll("img").forEach(img => img.complete || img.addEventListener("load", fit, { once: true }));
+}
+function next() { let i = cur + 1; while (i < S.length - 1 && S[i].skip && S[i].skip()) i++; if (i < S.length) show(i); }
+
+app.addEventListener("click", e => {
+  const single = e.target.closest("[data-k]");
+  if (single) {
+    A[single.dataset.k] = single.dataset.v;
+    app.querySelectorAll(`[data-k="${single.dataset.k}"]`).forEach(b => b.classList.toggle("on", b === single));
+    setTimeout(next, 180);
+    return;
+  }
+  const m = e.target.closest("[data-multi]");
+  if (m) {
+    const k = m.dataset.mk, v = m.dataset.multi;
+    let t = A[k] || [];
+    if (v === "nada") t = t.includes("nada") ? [] : ["nada"];
+    else { t = t.filter(x => x !== "nada"); t = t.includes(v) ? t.filter(x => x !== v) : [...t, v]; }
+    A[k] = t;
+    app.querySelectorAll(`[data-mk="${k}"]`).forEach(b => {
+      const on = t.includes(b.dataset.multi);
+      b.classList.toggle("on", on); b.setAttribute("aria-pressed", on);
+      b.querySelector(".box").textContent = on ? "✓" : "";
+    });
+    cta.disabled = !t.length;
+  }
+});
+
+cta.addEventListener("click", () => { const s = S[cur]; if (s.onCta && !s.onCta()) return; next(); });
+back.addEventListener("click", () => { let i = hist.pop(); while (i !== undefined && S[i].auto && hist.length) i = hist.pop(); if (i !== undefined) show(i, false); });
+addEventListener("resize", fit);
+if (document.fonts) document.fonts.ready.then(fit);
+
+/* atalhos de revisão do time: #fase2 … #fase5, #sentenca, #checkout, #obrigado ou #t12 (tela 12), com respostas de exemplo */
+const EX1 = { genero: "mulher", idade: "a34", carreira: "mag", momento: "estudo", tempo: "a3", trabalho: "integral", provas: "p2", horas: "h4", fe: "sim" };
+const EX2 = { rotina: "aulas", assunto: "lembra", voltas: "uma", cargo: "sonho", inscreve: "poucas", genio: "parte", voltou: "semanas", desistir: "passou", caminho: "incerto", trocas: ["material", "cronograma"], edital: "tentado", falta: "ansioso", resultado: "quase", celular: "r15", naos: "so", dias: "d20", perdeu: "culpa" };
+const EX3 = { deus: "parte", cadeira: "medo", frases: ["loteria", "passa"], lista: "servir", quem: "pais" };
+const EX4 = { trava: "constancia", disposicao: "muito", nome: "Ana", email: "ana@exemplo.com", whats: "(62) 99999-8888", acredita: "direcao" };
+const TUDO = { ...EX1, ...EX2, ...EX3, ...EX4 };
+const JUMP = { "#fase2": ["fase2", EX1], "#fase3": ["fase3", { ...EX1, ...EX2 }], "#fase4": ["fase4", { ...EX1, ...EX2, ...EX3 }], "#sentenca": ["sentenca", TUDO], "#fase5": ["fase5", TUDO], "#checkout": ["checkout", TUDO], "#obrigado": ["obrigado", TUDO] };
+let jump = JUMP[location.hash];
+const tN = /^#t(\d+)$/.exec(location.hash);
+if (!jump && tN) { const idx = S.findIndex(x => x.n === Number(tN[1])); if (idx >= 0) { S[idx].id = S[idx].id || "t" + tN[1]; jump = [S[idx].id, TUDO]; } }
+if (jump) { Object.assign(A, jump[1]); hist.push(0); show(S.findIndex(s => s.id === jump[0]), false); } else show(0, false);
+addEventListener("hashchange", () => location.reload());
+</script>
+</body>
+</html>
